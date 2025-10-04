@@ -1,0 +1,1192 @@
+  /$$$$$$  /$$$$$$$   /$$$$$$     /$$   /$$ /$$$$$$$$ /$$$$$$$$
+ /$$__  $$| $$__  $$ /$$__  $$   | $$$ | $$| $$_____/|__  $$__/
+| $$  \ $$| $$  \ $$| $$  \ $$   | $$$$| $$| $$         | $$   
+| $$$$$$$$| $$  | $$| $$  | $$   | $$ $$ $$| $$$$$      | $$   
+| $$__  $$| $$  | $$| $$  | $$   | $$  $$$$| $$__/      | $$   
+| $$  | $$| $$  | $$| $$  | $$   | $$\  $$$| $$         | $$   
+| $$  | $$| $$$$$$$/|  $$$$$$//$$| $$ \  $$| $$$$$$$$   | $$   
+|__/  |__/|_______/  \______/|__/|__/  \__/|________/   |__/   
+                                                               
+ADO.Net Conspect
+
+
+----------------------------------------------
+01_IntroADO.NETConnectedMode
+
+Батьківський класс = Базовий класс
+
+
+	Базовий класс			Клас наслідник
+
+	DbConnection
+								SqlConnection
+								OleDbConnection
+								OdbcConnection
+								OracleConnection
+	DbCommand
+								SqlCommand
+								OleDbCommand
+								OdbcCommand
+								OracleCommand
+	DbDataReader							
+								SqlDataReader
+								OleDbDataReader
+								OdbcDataReader
+								OracleDataReader
+	DbDataAdapter							
+								SqlDataAdapter
+								OleDbDataAdapter
+								OdbcDataAdapter
+								OracleDataAdapter
+								
+
+
+
+
+ //connectionString:  Property=value;Property2=value2;
+							
+								//Назва Серверу
+    string connectionString = @"Data Source = DESKTOP-1LCG8OH\SQLEXPRESS; 
+	
+			//Назва БД
+			Initial Catalog = SportShop;
+								
+			//Windows користувач чи ні
+		Integrated Security = true; 		
+		
+		
+			TrustServerCertificate=True;	";
+
+
+	SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+sqlConnection.Open();
+           Console.WriteLine("Connected success!");
+		   
+sqlConnection.Close();
+		   
+		   
+
+
+ExecuteNonQuery() - Скільки рядків задіяно (insert,update,delete)
+
+ExecuteReader() - Поверт таблицю (select)
+
+ExecuteScalar() - коли поверт 1 значення
+
+
+ int id = 2;
+string name = "Pукавиці";
+
+--Execute Reader--
+						`	//показ id
+	string cmdText = $@"select * from Products
+					where Id = {id}";
+	
+							//показ назву
+	string cmdText2 = $@"select * from Products
+					where Name = '{name}'";
+	
+SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+
+
+SqlDataReader reader = command.ExecuteReader();
+
+						//кількість полів
+ for (int i = 0; i < reader.FieldCount; i++) 
+            {						//назва колонки
+                Console.Write($" {reader.GetName(i),14}");
+            }
+			
+            Console.WriteLine("\n------------------");
+
+            while (reader.Read())
+            {
+              
+                for (int i = 0; i < reader.FieldCount; i++)
+                {						//назва рядка
+                    Console.Write($" {reader[i],14} ");
+                }
+                Console.WriteLine();
+            }
+
+ reader.Close();
+
+
+------------------
+02_CRUDInterface
+
+
+
+`
+
+
+ADO.Net Conspect
+
+
+------------------------------------------------------------------------------------------
+01_IntroADO.NETConnectedMode
+
+Батьківський класс = Базовий класс
+
+
+	Базовий класс			Клас наслідник
+
+	DbConnection
+								SqlConnection
+								OleDbConnection
+								OdbcConnection
+								OracleConnection
+	DbCommand
+								SqlCommand
+								OleDbCommand
+								OdbcCommand
+								OracleCommand
+	DbDataReader							
+								SqlDataReader
+								OleDbDataReader
+								OdbcDataReader
+								OracleDataReader
+	DbDataAdapter							
+								SqlDataAdapter
+								OleDbDataAdapter
+								OdbcDataAdapter
+								OracleDataAdapter
+								
+
+
+
+
+ //connectionString:  Property=value;Property2=value2;
+							
+								//Назва Серверу
+    string connectionString = @"Data Source = DESKTOP-1LCG8OH\SQLEXPRESS; 
+	
+			//Назва БД
+			Initial Catalog = SportShop;
+								
+			//Windows користувач чи ні
+		Integrated Security = true; 		
+		
+		
+			TrustServerCertificate=True;	";
+
+
+	SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+sqlConnection.Open();
+           Console.WriteLine("Connected success!");
+		   
+sqlConnection.Close();
+		   
+		   
+
+
+ExecuteNonQuery() - Скільки рядків задіяно (insert,update,delete)
+
+ExecuteReader() - Поверт таблицю (select)
+
+ExecuteScalar() - коли поверт 1 значення
+
+
+ int id = 2;
+string name = "Pукавиці";
+
+--Execute Reader--
+						`	//показ id
+	string cmdText = $@"select * from Products
+					where Id = {id}";
+	
+							//показ назву
+	string cmdText2 = $@"select * from Products
+					where Name = '{name}'";
+	
+SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+
+
+SqlDataReader reader = command.ExecuteReader();
+
+						//кількість полів
+ for (int i = 0; i < reader.FieldCount; i++) 
+            {						//назва колонки
+                Console.Write($" {reader.GetName(i),14}");
+            }
+			
+            Console.WriteLine("\n------------------");
+
+            while (reader.Read())
+            {
+              
+                for (int i = 0; i < reader.FieldCount; i++)
+                {						//назва рядка
+                    Console.Write($" {reader[i],14} ");
+                }
+                Console.WriteLine();
+            }
+
+ reader.Close();
+
+
+------------------------------------------------------------------------------------------
+02_CRUDInterface
+
+
+connection string - змінна інформація
+
+суть підєднаного режиму роботи з бд полягає в тому що ми на початку створ об'єкт 
+	SportShopDb передаємо connectionString і підключаємося до серверу
+
+далі виконуємо CRUD операції з бд коли бд не потрібна ми закриваємо sqlConnection
+
+суть відєднаного режиму роботи полягає в тому що 
+	ми на початку підключаємося до бд дію виконали і відключаємося від бд
+
+
+Щоб реалізувати sqlConnection в main використовуємо using а до класу 
+	підключаємо IDisposeable
+
+
+суть CRUD інтерфейсу працювати з існуючими данними
+
+
+ class SportShopDb: IDisposable
+    {
+        private SqlConnection sqlConnection;
+      
+        public SportShopDb(string connectionString)
+        {
+            sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+        }
+
+
+	 public void Create_As_Insert(Product product) 
+        {
+            string cmdText = $@"INSERT INTO Products
+                              VALUES ('{product.Name}', 
+                                      '{product.Type}',
+                                       {product.Quantity}, 
+                                       {product.Cost}, 
+                                      '{product.Producer}', 
+                                       {product.Price})";
+
+            SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+            command.CommandTimeout = 5; // default - 30sec
+           
+            int rows = command.ExecuteNonQuery();
+            Console.WriteLine(rows + " rows affected!");
+        }
+
+	
+	public List<Product> Read_Get_All() 
+        {
+            string cmdText = $@"select * from Products";
+
+            SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+             SqlDataReader reader = command.ExecuteReader();
+            Console.OutputEncoding = Encoding.UTF8;
+
+            List<Product> products = new List<Product>();   
+         
+            while (reader.Read())
+            {
+                products.Add(
+                    new Product()
+                    {
+                        Id = (int)reader[0],
+                        Name = (string)reader[1],
+                        Type = (string)reader[2],
+                        Quantity = (int)reader[3],
+                        Cost = (int)reader[4],
+                        Producer = (string)reader[5],
+                        Price = (int)reader[6]
+                    });
+            }
+            reader.Close();
+            return products;    
+        }
+
+
+
+	public void Delete(int id) 
+        {
+            string cmdText = $@"delete Products where Id = {id}";
+
+            SqlCommand command = new SqlCommand(cmdText, sqlConnection);       
+            int rows = command.ExecuteNonQuery();
+			
+			Console.WriteLine(rows + " rows Affected")
+        }
+
+        public void Dispose()
+        {
+            sqlConnection.Close();  
+        }
+	}
+
+------------------------------------------------------------------------------------------
+03_SQLInjection. Data Access Layer
+
+
+Чистий ADO.NET -> використ sql команди напряму
+
+
+
+'{Name}' - уразливий до SQL injection
+
+
+Тільки command може заборонити sql інєкції
+
+
+public List<Product> Get_By_Name(string _user_name)
+{
+	string cmdText = $@"select * from Products where Name = @name";
+	
+	SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+	command.Parameters.Add("name", System.Data.SqlDbType.NVarChar).Value = _user_name;
+	
+						назва змінної	тип данних					кому присвоїти
+	
+	
+	SqlDataReader reader = command.ExecuteReader();
+	return GetProductsByQuery(reader);
+}
+						
+
+	command.Parameters.AddWithValue("name", product.Name);
+								псевдонім		назва об'єкта
+
+
+			-самий простий-
+			
+string cmdText = $@"INSERT INTO Products
+VALUES (@name, @type, @quantity, @cost,@producer, @price)";
+
+SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+
+command.Parameters.AddWithValue("name", product.Name);
+command.Parameters.AddWithValue("type", product. Type);
+command.Parameters.AddWithValue("quantity", product.quantity);
+command.Parameters.AddWithValue("product", product.producer);
+
+
+
+---
+
+ private void ShowFunction(string cmdText,params SqlParameter[] parameters)
+        {
+            SqlCommand command = new SqlCommand(cmdText, sqlConnection);
+
+            if (parameters!=null)
+            {
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    command.Parameters.Add(parameters[i]);
+                }
+            }
+
+
+  SqlParameter param1 = new SqlParameter
+            {
+                ParameterName = "formatedDate",
+                SqlDbType = System.Data.SqlDbType.Date,
+                Value = formatedDate
+            };
+
+---
+
+
+
+--WPF
+
+Бібліотека призначена щоб дати класи 
+
+Solution -> Create new Project -> Class Library
+
+
+Class Library - не запускається/його призначення зберігати класи які ми будемо використовувати
+
+
+виносимо class SportShopDb і Products.cs через ЛКМ у 03_ClassLibrary
+
+
+
+Solution -> Manage NuGet Packages
+Dependencies->Add Project References -> 03_ClassLibrary
+
+
+у 03_ClassLibrary Міняємо класи на public
+
+
+
+dll - dynamic link library
+
+набір класів який можне використовувати в консольних і віконних додатках
+
+
+
+Models -> містить всі класи
+
+SportShopDb -> міст який зв'язує проект і бд
+
+03_CRUDInterface -> просто main
+
+
+
+ <DockPanel>
+        <ToolBar DockPanel.Dock="Top">
+            <Button Click="Button_Click">Load Products</Button>
+        </ToolBar>
+        <DataGrid Name="dataGrid"></DataGrid>	//таблиця
+ </DockPanel>
+
+
+dataGrid.ItemsSource = db.Read_Get_All();
+
+------------------------------------------------------------------------------------------
+04_LINQ To SQL
+
+internal - класс видно тільки в проекті
+
+Назва класу який звязаний з бд і має CRUD інтерфейс МАЄ бути приставка DB
+			|  міст між C# і БД
+
+
+
+connected mode - затратний		  |  Більше навантаження на сервер / Швидші зміни
+
+disconected mode - менш затратний |
+
+
+ Add new item -> LINQ to SQL Classes
+ 
+ View - > SQL Server Object Explorer -> Add SQL Server
+ 
+ ->  далі вибираємо у БД наші таблиці і тягнемо у меню -> потім жмемо ctrl+c (Таблиця стор з SQL у C#)
+ 
+ 
+System.Data.Linq.Table<Employee>   -  перетвор таблицю з дб у таблицю в C#
+
+
+
+
+
+
+Top(5) = Take(5)
+
+
+	//предикат | функція завданняс якої є взяти по черзі кожен Product і сказати true або false
+
+static bool FilteredPredicate(Product p)	//або (p => p.CostPrice > 1000)
+        {
+            return p.CostPrice > 1000;
+        }
+
+
+			якщо true, то буде додаватися в цю колекцію
+
+var mostValue = db.Products.Where(p => p.CostPrice > 1000)		//синтаксис методу
+                .OrderByDescending(p => p.CostPrice).Take(5);
+
+
+
+
+var mostValue = (from p in db.Products
+                         where p.CostPrice > 1000
+                         orderby p.Price descending			//синтаксис запиту
+                         select p).Take(5);
+
+
+
+ foreach (var p in mostValue)
+            {
+                Console.WriteLine($"Product: {p.Id,5}. {p.Name,-15} . {p.CostPrice}$ ");
+            }
+
+
+
+
+db.Products.InsertOnSubmit(product);	//вставляє об'єкт в колекцію але не в БД
+db.SubmitChanges();		//вставляє зміни у БД
+
+
+
+
+											//бо повертається 1 елем а Функція IQueryable
+  Product pr = db.Products.Where(p => p.Id == 3).FirstOrDefault();
+  
+            Console.WriteLine($"Product with id {pr.Id}. {pr.Name}. Price = {pr.CostPrice}");
+			
+            pr.CostPrice -= 16000;
+			
+            db.SubmitChanges();		//щоб зміни перенеслись у бд
+			
+	
+	
+			
+pr.CostPrice -= 16000;	// приходить на зміну чистому ADO.NET де все відбув через
+
+cmdText = "update Table Products where id='5'"  ТА		
+								SqlCommand commad = new SqlCommand(cmdText, connectionString)  // і ТД.....
+								
+								
+щоб створити Linq to Entities треба
+
+
+VS installer -> Modify Visual Studio 2022 -> Individual Components -> sql -> 
+
+ ✅ SQL Server Data Tools		//на базі VS studio створиться Local Server					
+ ✅ SQL Server Express 2019 LocalDB
+
+	Code Tools
+ 
+ ✅ LINQ to SQL tools		//Файл який дозволив по діаграмі(ctrl+c) створити БД				
+								
+								
+					
+					
+=====================================================								
+=====================================================								
+=====================================================								
+=====================================================								
+ /$$$$$$$$             /$$     /$$   /$$                     /$$$$$$$$                                                                           /$$      
+| $$_____/            | $$    |__/  | $$                    | $$_____/                                                                          | $$      
+| $$       /$$$$$$$  /$$$$$$   /$$ /$$$$$$   /$$   /$$      | $$     /$$$$$$  /$$$$$$  /$$$$$$/$$$$   /$$$$$$  /$$  /$$  /$$  /$$$$$$   /$$$$$$ | $$   /$$
+| $$$$$   | $$__  $$|_  $$_/  | $$|_  $$_/  | $$  | $$      | $$$$$ /$$__  $$|____  $$| $$_  $$_  $$ /$$__  $$| $$ | $$ | $$ /$$__  $$ /$$__  $$| $$  /$$/
+| $$__/   | $$  \ $$  | $$    | $$  | $$    | $$  | $$      | $$__/| $$  \__/ /$$$$$$$| $$ \ $$ \ $$| $$$$$$$$| $$ | $$ | $$| $$  \ $$| $$  \__/| $$$$$$/ 
+| $$      | $$  | $$  | $$ /$$| $$  | $$ /$$| $$  | $$      | $$   | $$      /$$__  $$| $$ | $$ | $$| $$_____/| $$ | $$ | $$| $$  | $$| $$      | $$_  $$ 
+| $$$$$$$$| $$  | $$  |  $$$$/| $$  |  $$$$/|  $$$$$$$      | $$   | $$     |  $$$$$$$| $$ | $$ | $$|  $$$$$$$|  $$$$$/$$$$/|  $$$$$$/| $$      | $$ \  $$
+|________/|__/  |__/   \___/  |__/   \___/   \____  $$      |__/   |__/      \_______/|__/ |__/ |__/ \_______/ \_____/\___/  \______/ |__/      |__/  \__/
+                                             /$$  | $$                                                                                                    
+                                            |  $$$$$$/                                                                                                    
+                                             \______/                                                                                                     							
+=====================================================								
+=====================================================								
+=====================================================								
+=====================================================								
+
+
+
+Entity Framework Conspect
+
+
+----------------------------------------------
+01_IntroToEntityFramework
+
+Entity Framework - підхід що дасть насписати код по якому згенерує БД
+
+
+ORM - Object Relational Mapping
+
+	Mapping (Переконвертовує данні з БД у класс)
+
+
+			model-workflow	
+			
+	*Database First(по ДБ класи)
+ 
+Existing Database	---->	Generated Data Model (.edmx)
+
+
+	*Model First(По схемі БД)
+	
+Data Model (.edmx)	---->	Generated Database
+
+
+	*Code First(По коду БД)
+	
+Data Model (classes) ---->	Generated Database
+or
+Existing Database	---->	Generated Data Model (classes)
+
+
+ Назва класу який звязаний з бд і має CRUD інтерфейс МАЄ бути приставка DB,DBContex
+			|  міст між C# і БД
+			
+			
+			
+			==Code First==
+			
+			
+ class Airplane
+}
+	
+	public int Id { get; set; }
+	
+	private string Model { get; set; }
+	
+	private int MaxPassangers { get; set; }
+	
+	
+	/////Relational Type: Flight ---Airplane (1....*)
+	
+	public ICollection<Flight> Flights { get; set; }
+}
+
+ class Flight
+{
+	
+	public int Id { get; set; }
+	
+	private string ArrivalCity { get; set; }
+	
+	private string DepartureCity { get; set; }
+	
+	private DateTime DepartureTime { get; set; }
+	
+	private DateTime ArrivalTime { get; set; }
+	
+	
+	/////Relational Type: Flight ---Airplane (1....*)
+	
+	public Airplane Airplane { get; set; }
+	public int AirplaneId { get; set; }
+}
+
+
+
+ Щоб зробити зв'язок one to many
+ 
+у Flight створ вказівник на літак	( public Airplane Airplane { get; set; } ) 
+
+а у Airplane колекцію Flight	( public ICollection<Flight> Flights { get; set; } )
+
+ *Крім цього створ додаткове поле у Flight для зручності :	public int AirplaneId { get; set; }
+ 
+
+
+	Щоб зробити зв'язок many to many
+	
+у Client створ вказівник на літак	( public ICollection<Flight> Flights { get; set; } ) 
+
+а у Flight колекцію Flight	( public ICollection<Client> Clients { get; set; } )	
+	
+	
+		==== C# to SQL ====
+		
+		✅	Microsoft.EntityFrameworkCore
+
+		
+public DbSet<Client> Clients { get; set; }	- проперті який 
+			у момент mapping перетвор дані на таблицю	
+	
+	  DbSet<>	- клас який у C# зберігає колекцію а у БД таблицю	
+	
+	
+public DbSet<Flight> Flights { get; set; }
+
+public DbSet<Airplane> Airplanes { get; set; }	
+	
+	
+	
+internal class AirportDbContext: DBContext{....		- клас зв'язується з БД | дає класу методи для роботи з БД
+...
+}
+
+
+потім в main створ екземпляр від якого є методи
+
+
+context.Client.Add(new Client(){
+	Name = ...
+});
+context.SaveChanges();	// те саме що і db.SubmitChanges();	
+
+
+		====CONNECTION====
+			
+	✅	Microsoft.EntityFrameworkCore.SqlServer
+
+
+ protected OVERRIDE void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-1LCG8OH\SQLEXPRESS;
+                                        Initial Catalog = PD_411_Airport;
+                                        Integrated Security=True;
+                                        Connect Timeout=5;
+                                        Encrypt=False;Trust Server Certificate=False;
+                                        Application Intent=ReadWrite;Multi Subnet Failover=False");
+        }
+
+
+
+
+public AirportDbContext()
+        {
+           this.Database.EnsureDeleted();	//Delete БД
+
+           this.Database.EnsureCreated();	//Create БД
+        }
+		
+		
+		==== C# to SQL ====
+		
+		
+Якщо назва проперті має Id/id/ID NameId то при DbSet<> ці поля будуть Primary Key
+
+Якщо назва проперті має Name+Id то при DbSet<> ці поля будуть Foreign Key
+
+
+Value - not null	Reference - nullable
+
+
+ public DateTime? Birthdate { get; set; }	[ ? ] not null --> null 
+ 
+Щоб вносити змінити як у SQL використ DataAnnotations:
+	
+	[Required] 				//not null
+	[MaxLength(Number)]		//nvarhcar(Number)
+	[Key]  					//Primary Key
+	[Column("FirstName")]  	//as 'FirstName'
+	
+	
+	
+автоматично створ	
+
+		create table ClientFlight			//проміжна таблиця
+(
+	ClientId int not null references Teachers (Id), -- 1 1 1 2 7 2 5	1..20
+	FlightsNumber int not null references Groups (Id),	 -- 4 3 5 4 4 3 4 	1...20
+	
+	-- складений первинний ключ
+	primary key (ClientId, FlightsNumber)	//перевіряє комбінації на дублікат
+)
+
+
+OnModelCreating - insert дані у таблицю при створенні БД
+	Вказ тільки основні поля
+
+        protected OVERRIDE void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Airplane>().HasData(new Airplane[]
+          {
+                new Airplane()
+                {
+                     Id = 1,
+                     Model = "Boeing747",
+                     MaxPassangers = 200
+                },
+                 new Airplane()
+                {
+                     Id = 2,
+                     Model = "Boeing748",
+                     MaxPassangers = 200
+                }
+
+          });
+            modelBuilder.Entity<Flight>().HasData(new Flight[]
+            {
+                new Flight()
+                {
+                     Number = 1,
+                     ArrivalCity = "Lviv",
+                     DepartureCity = "Kyiv",
+                     ArrivalTime = new DateTime(2025,9,21),
+                     DepartureTime = new DateTime(2025,9,21),
+                     AirplaneId = 1                    
+                },
+                 new Flight()
+                {
+                     Number = 2,
+                     ArrivalCity = "Lviv",
+                     DepartureCity = "Odessa",
+                     ArrivalTime = new DateTime(2025,9,22),
+                     DepartureTime = new DateTime(2025,9,22),
+                     AirplaneId = 2
+                }
+
+            });
+        }
+		
+		
+		
+Client cl = context.Clients.Find(1);
+ 
+            Console.WriteLine($"{cl.Name}  {cl.Email} {cl.Birthdate.ToString("yyyy-MM-dd")} ");
+
+            if(cl != null)
+            {
+                context.Clients.Remove(cl);
+                context.SaveChanges();  
+            }
+			
+			
+----------------------------------------------
+02_EF_Migrations
+
+
+при many to many EF автоматично створить проміжну таблицю
+
+ можна для зручності створити її самому Щоб зробити вивід без join
+ 
+ 
+entities -  класи які зв'язуються з БД
+
+
+		треба поставити
+	
+	✅	Microsoft.EntityFramework Core.Tools
+
+migration - можливість по коду стоврити БД при змінах вона записує їх і
+		порівнює SQL з C#
+
+
+
+потім у консолі в tools -> NuGet Package Manager -> Package Manager Console
+
+	пишемо комнду:	 add-migration MigrationName
+
+	update-database 	--> 	застосувати зміни
+	
+	Remove-Migration 	-->		видалити міграцію
+	
+	
+migration - можливість гуманним методом оновити/створити БД БЕЗ ВИДАЛЕННЯ існуючої інформації
+
+
+			Більше не потрібні
+			
+		this.Database.EnsureDeleted();	
+		this.Database.EnsureCreated();
+		
+		
+проміжна таблиця допомагає вже заповнити данні		
+		
+----------------------------------------------
+03_EF_ Fluent API
+
+Fluent API - можливості винести Data anottations в одне місце
+	дає можливість налаштувати зв'язки (як яка проперті прив'язана)
+	
+
+
+
+modelBuilder. Entity<Airplane>(). HasKey(a => a.Id); 	//primary key (робить поле первинним ключем)
+modelBuilder. Entity<Airplane>().ToTable("Plane");		//Table Name (дає назву таблиці)
+														Table("Plane")
+
+
+
+		=бере літака у якого проперті Model=
+ 1	modelBuilder. Entity<Airplane>().Property(a => a.Model)		//найкращий
+ 2	modelBuilder. Entity<Airplane>().Property("Model")
+ 3	modelBuilder. Entity<Airplane>().Property(nameof(Airplane.Model))		
+
+
+    до проперті c.Name замість
+ [Required,MaxLength(150),Column("Plane")]
+
+
+ modelBuilder.Entity<Airplane>()
+ .Property(a => a. Model)
+ .HasMaxLength(100)		// MaxLength(100)
+ .IsRequired();			// Required
+
+
+ modelBuilder. Entity<Client>()
+ .Property(c=>c.Name)
+ .IsRequired()
+ .HasMaxLength(150)
+ .HasColumnName("FirstName");	//Column("Plane")
+
+
+
+ .HasKey(a => a.Id);   				[Key]
+ .ToTable("Plane");					[Table("Plane")]	
+ 
+  .HasMaxLength(100)				[MaxLength(100)]
+  .IsRequired();					[Required]
+  .HasColumnName("FirstName");		[Column("Plane")]
+
+
+
+
+
+					Relationship navigations
+
+	==прив'язує Clients до Flights many to many==
+				конкретизує до якої властивості прив'язати
+		
+--пишеться щоб правильніше побудувалась таблиця і взяла ті проперті
+		У класах колекції елем на елем залишаємо
+		
+		
+		//many to many	*...........*
+		
+modelBuilder. Entity<Flight>()
+ .HasMany(f => f.Clients)
+ .WithMany (c => c.Flights);
+
+
+		//one to many 	1..................*
+			//літак має * польотів а політ 1 літак
+		
+modelBuilder. Entity<Flight>()
+ .HasOne(f => f. Airplane)
+ .WithMany (a=>a.Flights)
+ .HasForeignKey(f=> f. AirplaneId);
+
+
+
+
+
+
+					Seeder
+
+для зручності виносимо в інший клас DbInitializer
+	і створ папку Helpers
+	
+
+	Seeder	-  той самий  OnModelCreating(ModelBuilder modelBuilder)
+
+
+Для кожної ініціалізації класу створ нову функцію 
+
+
+	додаємо THIS і STATIC шоб зробити extension 
+			і у DbContext викликати modelBuilder.SeedFlights();
+				
+
+	static class DbInitializer {
+
+
+ public static void SeedAiplanes(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Airplane>().HasData(new Airplane[]
+            {
+			new Airplane(){ ......}
+			}
+		}
+		
+		
+   public  static void SeedFlights(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Flight>().HasData(new Flight[]
+           {
+                new Flight() {.....}		
+		   }
+		}
+
+}
+
+----------------------------------------------
+04_EF_Loading Data
+
+
+ Visual Studio Installer - > ✅ Class Designer	//щоб на основі БД була діаграма
+
+
+
+Типи підгрузок
+	1 явний Join - Проміжна таблиця
+	2 явна підгрузка до 1 параметра
+
+
+	Console.WriteLine($"{cl?.Name}  {cl?.Email} - якщо об'єкт буде null то воно його виведе без помилки
+
+
+JOIN - load data Include(relation data)		//(relation data) - тип данних який підтягуємо
+
+
+var flight = context.Flights
+	.Include(f => f. Airplane)				//JOIN
+	.Where(f => f. ArrivalCity == "Lviv")
+	.OrderBy(f=> f. DepartureTime);
+
+
+foreach (var f in flight)
+ {
+ 	Console.WriteLine($"Arrival city {f.ArrivalCity}
+ 		$"Departure city: {f.DepartureCity}\n" +
+ 		$"Departure time: {f.Departure Time. ToShortDateString()}\n" +
+ 		$"Airplane: {f.AirplaneId} {f.Airplane.Model}");
+ }														при Include буде працювати
+							без виводитиме Null object not set
+
+
+
+
+ .Include(f => f. Airplane)	//Підгрузка 
+					абсолютно всіх данних з таблиці Airplane до всіх Flight
+						
+
+
+
+	//Явна підгрузка | підгрузка до конеретного об'єкта
+	
+ --Explicit loading data : Context.Entry(entity).Collection/References.Load()
+												
+								Collection - для ICollection<>
+								References - для Посилання на 1 об'єкт
+
+
+
+Client cl = context.Clients.Find(3);
+
+
+ context.Entry(cl).Collection(cl => cl.Flights).Load();	
+	
+	Entry(cl) - Вказ для якого об'єкта конкретно підгружаються данні
+	
+	
+DataAccess 	
+	або
+data library - клас не запускає консоль краще для користувача
+
+  повинен мати все що стоується роботи з БД (Entities,Helpers,Migrations)
+
+----------------------------------------------
+05_EF_OneToOne
+
+one to one - самий складний і неприродній зв'язок для БД
+
+при цьому зв'язку визначаємо яка таблиця буде головною а яка залежною
+
+
+	//залежна
+public class Credential	{
+...
+public Client Client { get; set; }	//null
+public int ClientId { get; set; }	//null
+	}
+
+	//основна бо ( int? )
+public class Client	{
+...
+public Credential Credential { get; set; }	//null
+public int? CredentialId { get; set; }	//not null
+	}
+
+
+=====================================================								
+=====================================================								
+=====================================================								
+=====================================================								
+  /$$$$$$                        /$$                                                                          
+ /$$__  $$                      | $$                                                                          
+| $$  \__/ /$$   /$$  /$$$$$$$ /$$$$$$    /$$$$$$  /$$$$$$/$$$$                                               
+|  $$$$$$ | $$  | $$ /$$_____/|_  $$_/   /$$__  $$| $$_  $$_  $$                                              
+ \____  $$| $$  | $$|  $$$$$$   | $$    | $$$$$$$$| $$ \ $$ \ $$                                              
+ /$$  \ $$| $$  | $$ \____  $$  | $$ /$$| $$_____/| $$ | $$ | $$                                              
+|  $$$$$$/|  $$$$$$$ /$$$$$$$/  |  $$$$/|  $$$$$$$| $$ | $$ | $$                                              
+ \______/  \____  $$|_______/    \___/   \_______/|__/ |__/ |__/                                              
+           /$$  | $$                                                                                          
+          |  $$$$$$/                                                                                          
+           \______/                                                                                           
+ /$$$$$$$                                                                              /$$                    
+| $$__  $$                                                                            |__/                    
+| $$  \ $$ /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$  /$$$$$$  /$$$$$$/$$$$  /$$$$$$/$$$$  /$$ /$$$$$$$   /$$$$$$ 
+| $$$$$$$//$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$|____  $$| $$_  $$_  $$| $$_  $$_  $$| $$| $$__  $$ /$$__  $$
+| $$____/| $$  \__/| $$  \ $$| $$  \ $$| $$  \__/ /$$$$$$$| $$ \ $$ \ $$| $$ \ $$ \ $$| $$| $$  \ $$| $$  \ $$
+| $$     | $$      | $$  | $$| $$  | $$| $$      /$$__  $$| $$ | $$ | $$| $$ | $$ | $$| $$| $$  | $$| $$  | $$
+| $$     | $$      |  $$$$$$/|  $$$$$$$| $$     |  $$$$$$$| $$ | $$ | $$| $$ | $$ | $$| $$| $$  | $$|  $$$$$$$
+|__/     |__/       \______/  \____  $$|__/      \_______/|__/ |__/ |__/|__/ |__/ |__/|__/|__/  |__/ \____  $$
+                              /$$  \ $$                                                              /$$  \ $$
+                             |  $$$$$$/                                                             |  $$$$$$/
+                              \______/                                                               \______/                                                                                                      							
+=====================================================								
+=====================================================								
+=====================================================								
+=====================================================	
+
+
+---------------------------------------------------------------
+01_SP - Intro to System Programming. Processes
+
+async - await //Головна мета
+
+процес - програма яка запускається
+
+
+base priority - визначає кому більше дати процесорного часу
+
+псевдо паралельність - виконання багатьох процесів частково
+
+
+using System.Diagnostics; // for working with processes
+
+
+ Process.Start("Chrome.exe", "stackoverflow.com google.com");
+	
+
+	close - proceses = null
+	closeMainWindow - гуманно закриває alt+f4
+	kill - як через task manager
+
+
+grid.ItemSource = Process.GetProcesses();	//викликає функцію GetProcesses
+
+grid.SelectedItem as Process	// Бере виділений елемент як процес
+
+---------------------------------------------------------------
+02_SP - Threads
+
+
+---
+WPF
+
+InitializeComponent - Створ Main Window
+
+---
+
+Thread - потік додатковий класи який дає C#
+
+
+										void Функція									
+ThreadStart threadstart = new ThreadStart(Method);
+
+Thread thread = new Thread(threadstart);
+thread.Priority ThreadPriority.Normal;
+
+thread.Start()	- Буде виконуватись ця ф-ція і main
+
+
+ThreadStart - нічого не передаємо
+
+ParameterizedThreadStart - приймає obj
+
+
+ParameterizedThreadStart ts = new ParameterizedThreadStart(Method); dThreadStart(Method);
+
+Thread t1 new Thread(ts);
+Thread t2 = new Thread(ts);
+
+t1. Priority=ThreadPriority.Lowest;
+t2. Priority=ThreadPriority.Highest;
+
+t1.Start((object)"t1: Lowrst")
+
+
+---------------------------------------------------------------
+03_SP - Thread Synchronization
+
+
+threads[i].Join() - чекає коли закінчаться потоки і потім об'єднує їх 
+
+потоки перебувають один одного
+
+interlocked - ставить замок на змінну коли потік її використовує
+
+Interlocked.Increment (ref Counter.count); - для 1 змінної
+
+
+lock(this) - ставить замок на всі змінні классу
+
+static немає this
+
+
+	lock для статичного классу
+lock (typeof(StaticLockCounter))
+{
+	++fieldl;
+	if (field1 % 2 0)
+	++field2;
+}|
+
+
+
+
+

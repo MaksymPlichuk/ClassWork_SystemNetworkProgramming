@@ -24,22 +24,25 @@ namespace _01_SPIntroToSystemProgrammingProcesses
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             grid.ItemsSource = Process.GetProcesses();
-            //(grid.SelectedItem as Process)
-            string message = " ";
-            message += "Hellloooooooooo";
-
-            MessageBox.Show(message, "Process info", MessageBoxButton.OK, MessageBoxImage.Information);
-            MessageBox.Show(nameProc.Text);
         }
         private void Button_Click1(object sender, RoutedEventArgs e)
         {
-            //grid.ItemsSource = Process.GetProcesses();
             var item = (grid.SelectedItem as Process);
             item.Kill();
             string message = $"Task {item.ProcessName} Killed!";
+        }
+        private void ShowInfo(object sender, RoutedEventArgs e)
+        {
+            var item = (grid.SelectedItem as Process);
+            string message = $"Task Name: {item.ProcessName}\nID: {item.Id}\nMachineName: {item.MachineName}\nPriority: {item.BasePriority}\nPagedMemorySize(KB): {item.PagedMemorySize64}\nStart Time: {item.StartTime}\nTotal Processor Time: {item.TotalProcessorTime}\nUser Processor Time: {item.UserProcessorTime}";
 
             MessageBox.Show(message, "Process info", MessageBoxButton.OK, MessageBoxImage.Information);
-            //MessageBox.Show(nameProc.Text);
+        }
+        private void RunProcess(object sender, RoutedEventArgs e)
+        {
+            var item = nameProc.Text;
+            MessageBox.Show(item, "Running: ", MessageBoxButton.OK, MessageBoxImage.Information);
+            Process.Start(item);
         }
     }
 }

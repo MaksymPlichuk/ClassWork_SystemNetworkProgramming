@@ -7,12 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <DockPanel>
-        <ToolBar>
+        <ToolBar DockPanel.Dock="Top">
             <Button Click="Button_Click">Refresh</Button>
             <Button Click="Button_Click1">Kill</Button>
-            <Button >Show Info</Button>
+            <Button Click="ShowInfo">Show Info</Button>
             <TextBox Name="nameProc" Width="200"></TextBox>
-            <Button >Ok</Button>
+            <Button Click="RunProcess">Ok</Button>
         </ToolBar>
         <DataGrid Name="grid" AutoGenerateColumns="False" >
             <DataGrid.Columns>
