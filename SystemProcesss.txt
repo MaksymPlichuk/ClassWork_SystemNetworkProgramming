@@ -1141,24 +1141,89 @@ ThreadStart threadstart = new ThreadStart(Method);
 Thread thread = new Thread(threadstart);
 thread.Priority ThreadPriority.Normal;
 
+
+	або зразу 
+
+Thread thread = new Thread(Method);
+
+
 thread.Start()	- Буде виконуватись ця ф-ція і main
 
 
 ThreadStart - нічого не передаємо
-
 ParameterizedThreadStart - приймає obj
 
 
-ParameterizedThreadStart ts = new ParameterizedThreadStart(Method); dThreadStart(Method);
+ static void ThreadFunc(object? a)
+         {
+ 
+             string ID = (string)a;
+             for (int i = 0; i < 100; i++)
+             {
+                 Console.WriteLine(ID + " " + i);
+                 //Console.ReadKey();
+                 Thread.Sleep(100);
+             }
+         }
 
-Thread t1 new Thread(ts);
-Thread t2 = new Thread(ts);
+Thread thread1 = new Thread(ThreadFunc);
+            thread1.Start((object)"One");	//потік з параметром
+
+
+	t.IsBackground = true
+	
+ другорядний потік закривається коли закривається Основний
+
+	
+	t.Abort(); //перервати потік
+
+
+
+ParameterizedThreadStart ts = new ParameterizedThreadStart(Method);
+
+	Thread t1 new Thread(ts);
+	Thread t2 = new Thread(ts);
 
 t1. Priority=ThreadPriority.Lowest;
 t2. Priority=ThreadPriority.Highest;
 
-t1.Start((object)"t1: Lowrst")
+  t1.Start((object)"t1: Lowrst")
 
+
+	t.Join	//чекає поки потік не закінчиться і потім продовжує Main
+
+
+			-Thread in wfp-
+
+private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            thread = new Thread(HardWork);	
+            thread.Start();		//стовр новий потік щоб вікно не фрізилось
+        }
+
+   private void HardWork()
+   {
+       bool isContinue = false;
+      Application.Current.Dispatcher.Invoke(new Action(() =>	//з потоку програми переключ на вікно
+        {
+			if (progress.Value > 0)
+				progress.Value = progress.Minimum;
+			isContinue = progress.Value < progress.Maximum;
+        }));
+	   
+       while (isContinue)
+       {
+            Application.Current.Dispatcher.Invoke(new Action(() =>		//так само доступаємось до потоку
+           {
+				progress.Value++;
+				isContinue = progress.Value < progress.Maximum;
+           }));
+           Thread.Sleep(110);
+		   
+		} 
+		   
+		   
+Tuple<int, int> tuple = new Tuple<int, int>(5, 6);	--пара для передачи 2 аргументів у функцію
 
 ---------------------------------------------------------------
 03_SP - Thread Synchronization

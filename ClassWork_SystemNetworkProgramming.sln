@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01_SPIntroToSystemProgrammingProcesses", "01_SPIntroToSystemProgrammingProcesses\01_SPIntroToSystemProgrammingProcesses.csproj", "{4E3884FF-82AD-4E1C-9B42-546774FF0BF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02_SPThreads", "02_SPThreads\02_SPThreads.csproj", "{151A7441-DE7C-49B7-A440-4408C1833554}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4E3884FF-82AD-4E1C-9B42-546774FF0BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E3884FF-82AD-4E1C-9B42-546774FF0BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E3884FF-82AD-4E1C-9B42-546774FF0BF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{151A7441-DE7C-49B7-A440-4408C1833554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{151A7441-DE7C-49B7-A440-4408C1833554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{151A7441-DE7C-49B7-A440-4408C1833554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{151A7441-DE7C-49B7-A440-4408C1833554}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
