@@ -1231,7 +1231,64 @@ Tuple<int, int> tuple = new Tuple<int, int>(5, 6);	--пара для перед�
 
 threads[i].Join() - чекає коли закінчаться потоки і потім об'єднує їх 
 
-потоки перебувають один одного
+
+	 static void Function()
+        {
+            for (int j = 1; j <= 1_000_000; ++j)
+            { ++Counter.count; Thread.Sleep(500); }
+        }
+        static void Main(string[] args)
+        {
+
+           
+            Thread[] threads = new Thread[5];
+				for (int i = 0; i < threads.Length; ++i)
+				{
+					threads[i] = new Thread(() => {				//як new Thread(Function)
+						for (int j = 1; j <= 1_000_000; ++j)
+						{ Counter.count++; }
+					});
+					threads[i].Start();
+				}
+            for (int i = 0; i < threads.Length; ++i)
+                threads[i].Join();
+
+            Console.WriteLine("counter = {0}", Counter.count);	///малоб бути 5_000_000
+
+
+Аде потоки перебивають один одного 	-- вихід Inter locker
+									ставить замок поки потік використ змінну
+
+
+	Thread[] threads = new Thread[5];
+            for (int i = 0; i < threads.Length; ++i)
+            {
+                threads[i] = new Thread(delegate ()
+                {
+                    for (int j = 1; j <= 1_000_000; ++j)
+                    {
+
+                        Interlocked.Increment(ref Counter.count);
+                    }
+                });
+                threads[i].Start();
+            }
+
+	
+		
+		Види Interlocked:
+		
+ public static Int32 Increment(ref Int32 location); – увеличивает значение на 1;
+	public static int Decrement(ref int location); – уменьшает значение на 1;
+	
+public static int Add(ref int location, int value); – увеличивает/уменьшает значение на value;
+	public static int Exchange(ref int locationi, int value); – обменивает параметры значениями;
+	
+	public static int CompareExchange(ref int location, int value, int comparand) – сравнивает location и comparand и присваивает location value в случае успеха.
+
+
+
+
 
 interlocked - ставить замок на змінну коли потік її використовує
 
@@ -1240,11 +1297,29 @@ Interlocked.Increment (ref Counter.count); - для 1 змінної
 
 lock(this) - ставить замок на всі змінні классу
 
-static немає this
+	
+	for (int i = 0; i < 1_000_000; ++i)
+                {
+                    // this - pointer вказівник на змінні классу
+                    lock (this)
+                    {
+                        
+														//Interlocked.Increment(ref number);//Interlocked не підійде бо працює з 1 змінною
+                        ++number;
+                        if (number % 2 == 0)//---------------------------
+																				//Interlocked.Increment(ref evenNumbers);
+                            ++evenNumbers;=
+                    }
+                }
 
 
-	lock для статичного классу
-lock (typeof(StaticLockCounter))
+
+					-lock для статичного классу-
+					
+static немає this тому
+
+	
+lock (typeof(StaticLockCounter))	//StaticLockCounter - назва классу
 {
 	++fieldl;
 	if (field1 % 2 0)
