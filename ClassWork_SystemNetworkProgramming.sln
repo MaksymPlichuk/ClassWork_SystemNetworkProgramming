@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02_SPThreads", "02_SPThread
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03_SPThreadSynchronization", "03_SPThreadSynchronization\03_SPThreadSynchronization.csproj", "{C928DFBC-FF57-422F-A8A6-A33DD925D616}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04_SPTasks", "04_SPTasks\04_SPTasks.csproj", "{B9BDDF77-466A-431A-9787-4217DCC20535}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C928DFBC-FF57-422F-A8A6-A33DD925D616}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C928DFBC-FF57-422F-A8A6-A33DD925D616}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C928DFBC-FF57-422F-A8A6-A33DD925D616}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9BDDF77-466A-431A-9787-4217DCC20535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9BDDF77-466A-431A-9787-4217DCC20535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9BDDF77-466A-431A-9787-4217DCC20535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9BDDF77-466A-431A-9787-4217DCC20535}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

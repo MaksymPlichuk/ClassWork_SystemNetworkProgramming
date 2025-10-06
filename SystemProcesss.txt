@@ -1132,6 +1132,11 @@ InitializeComponent - Створ Main Window
 
 ---
 
+
+using System.Threading;		//for threads
+
+
+
 Thread - потік додатковий класи який дає C#
 
 
@@ -1327,6 +1332,147 @@ lock (typeof(StaticLockCounter))	//StaticLockCounter - назва классу
 }|
 
 
+
+---------------------------------------------------------------
+04_SP - Tasks
+
+	using System.Threading.Tasks;
+
+
+TPL - Task Parallel Library	//default using
+
+
+CancellationToken - дозволяє перервати task
+delegate void()	-- те саме що ()
+
+Action - делегат	void()
+
+
+ Task task4 = new Task( ()=> {
+ 	Console.WriteLine("Початок роботи метода Display");
+ 	Console.WriteLine("Завершення роботи метода Display");
+ });
+task4.Start();
+
+	-або-
+	
+ Task task4 = new Task(Display);
+task4.Start();
+	
+
+	//start automatically
+	
+Task task2 Task.Factory.StartNew(() =>
+	Console.WriteLine($"Task 2 is executed in Thread: " +
+	$"{Thread.CurrentThread. Managed ThreadId}"
+));
+
+		
+
+
+		
+		Самий поширений(static об'єкт класу не потрібен)
+
+ Task task3 = Task.Run(() =>
+}
+	Console.WriteLine($"Task 3 is executed in Thread: {Thread.Cur
+});
+
+
+
+
+
+task.Wait(); // waiting (freeze)
+	як Thread.Join()
+
+
+	tasks - масив task
+
+Task.WaitAll(tasks)	//чекаємо поки закінчатьтся всі task
+
+Task.WaitAny(tasks)	//чекаємо поки закінчатся 1 task
+
+
+
+
+Thread	- вузький функціонал	Нічого не повертає
+Task - більший функціонал		Повертає
+
+
+
+
+ Task task1 = new Task(() => {
+	Console.WriteLine($"Task Id: {Task.CurrentId}");
+	Thread.Sleep(1000);
+ });
+ 
+Task task2 = task1.ContinueWith(Display)
+	.ContinueWith(Display2);	- створ послідовність методів
+
+	task1.Start()	//запустить ланцюг ф-цій
+
+
+
+
+
+	--типізована task яке повертає і приймає int
+Task<int> t = new Task<int>(() => Factorial(5));	
+
+
+t.Start()
+
+	//t.Wait()	-- необов'язково бо task1.Result == taskl.Wait();
+
+t.Result()	// проперті яка покаже знач з ф-ції
+
+
+
+--ContinueWith(Summ); - приймає PREVIOUS taks
+
+	static int Summ(Task<int> prevTask)
+{
+	int summ = prevTask.Result * 2;
+	Console.WriteLine(summ);
+	return summ;
+}
+
+Task<int> t = task1.ContinueWith(Summ);
+
+Console.WriteLine(t.Result);
+
+
+
+			--Outer 	Inner-
+			
+
+var outer Task. Factory. StartNew(()	// outer task
+ {
+	Console.WriteLine("Outer task starting...");
+		var inner = Task. Factory. StartNew(() => // inner task
+		{
+			Console.WriteLine("Inner task starting...");
+			Thread.Sleep(2000);
+			Console.WriteLine("Inner task finished.");
+			
+		}, TaskCreationOptions.Attached To Parent);		//спочатку виконається outer потім inner
+														// без неї рандомно
+	
+	/), TaskCreationOptions. Attached To Parent);		
+	//inner.Wait();//freez
+		
+	Console.WriteLine("Outer task ending...");
+	
+ });
+outer.Wait(); 						// waiting outer task
+Console.WriteLine("End of Main");
+Console.ReadLine();
+
+
+inner треба outer -- тільки щоб він його створив
+
+
+---------------------------------------------------------------
+05_SP - Async/Await
 
 
 
