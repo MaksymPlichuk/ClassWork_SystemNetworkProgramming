@@ -1475,4 +1475,69 @@ inner треба outer -- тільки щоб він його створив
 05_SP - Async/Await
 
 
+ItemSource - для незмінної колекції
+
+ListBox - клас для виведення данних
+list.Items.Add(value);
+
+
+<ProgressBar DockPanel. Dock="Bottom" Value="20" Height="15" 
+IsIndeterminate="True"	- прогрес бар рухаєтсья
+	>	</ProgressBar>
+
+
+
+		//розбив функціїї на потоки
+
+private void Button_Click(object sender, RoutedEventArgs e)
+{
+	Task<int> task Task. Run(GenerateNumber);
+	//int value = task.Result;	-- заморожує програму
+	//list.Items.Add(value);
+}		
+
+
+	/прапорець на метод щоб компілювався по особливому
+Async	-  дозволено await | метод розділяється на 2 частини до await(зразу) і після(чекати)
+(послідовне без заморозки)
+
+
+
+
+
+
+	await	-	чекає task без freeze
+
+
+int value = await task;	 --не заморожує додаток коли чекає результат
+		//повертає task.Result
+
+
+
+суть async methods - повертають task
+
+
+			Async - у ф-ції створ task
+Task<int> GenerateNumberAsync()
+{
+	return Task.Run(()=>
+	{
+		Thread.Sleep(random.Next(5000));
+		return random. Next(1000);
+	});
+}
+
+
+
+	list.Items.Add(await Generate NumberAsync());
+
+
+
+
+
+
+
+
+
+
 
