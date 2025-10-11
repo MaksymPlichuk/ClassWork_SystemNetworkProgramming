@@ -16,6 +16,50 @@
 
             return true;
         }
+
+        public static int[] generateArr()
+        {
+            Random random = new Random();
+            var arr = new int[10];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = random.Next(-50, 50);
+                Console.Write(arr[i] + " ");
+            }
+            Console.WriteLine();
+            return arr;
+        }
+        public static int[] arrDistinct(int[] arr)
+        {
+            arr = arr.Distinct().ToArray();
+            foreach (int i in arr)
+            {
+                Console.Write(i +" ");
+            }
+            Console.WriteLine();
+            return arr;
+        }
+        public static int[] arrSort(int[] arr)
+        {
+            Array.Sort(arr);
+            foreach (var item in arr)
+            {
+                Console.Write(item + " ");
+            }
+            Console.WriteLine();
+            return arr;
+        }
+        public static void binarySearch(int[] arr)
+        {
+            Console.Write("Enter value to find: "); int val = int.Parse(Console.ReadLine()!);
+            int index = Array.BinarySearch(arr, val);
+            if (index > 0)
+            {
+                Console.WriteLine($"Found {val} at index: {index}");
+            }
+            else { Console.WriteLine($"{val} wasn't found in array"); }
+        }
+
         static void Main(string[] args)
         {
             Console.WriteLine("Task 1");
@@ -68,7 +112,10 @@
             Console.ReadKey(true);
 
             Console.WriteLine("\nTask 5");
-            //Task t7 = Task.Run(()=>)
+            Task<int[]> t7 = Task.Run(() => generateArr());
+            Task<int[]> t8 = t7.ContinueWith(prevtask=>arrDistinct(prevtask.Result)).ContinueWith(prevtask2=>arrSort(prevtask2.Result));
+            Task t9 = t8.ContinueWith(prevtask3 => binarySearch(prevtask3.Result));
+            t9.Wait();
         }
     }
 }

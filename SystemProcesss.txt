@@ -1418,6 +1418,9 @@ Task task2 = task1.ContinueWith(Display)
 	--типізована task яке повертає і приймає int
 Task<int> t = new Task<int>(() => Factorial(5));	
 
+			() => Factorial(5)		//void лямбда вираз який нічого не приймає і не повертає
+								всередені алгоритму якого лежить метод Factorial
+
 
 t.Start()
 
