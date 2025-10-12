@@ -1,0 +1,40 @@
+﻿<Window x:Class="_06_SPOpenFileDialog.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_06_SPOpenFileDialog"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+         Style="{StaticResource MaterialDesignWindow}"  
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Background="LightBlue">
+        <Border MinHeight="300" MinWidth="400" Margin="15" Background="White" VerticalAlignment="Center" Padding="30" MaxWidth="500" CornerRadius="15">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="30" Color="LightGray"></DropShadowEffect>
+            </Border.Effect>
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                        <Label FontSize="30" FontWeight="Bold" >From:</Label>
+                        <TextBox Name="sourceText" Text="{Binding Source}" HorizontalAlignment="Center" materialDesign:HintAssist.Hint="Enter file to copy" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Column="1" MaxWidth="220" FontSize="10"></TextBox>
+                        <Button HorizontalAlignment="Right" Grid.Column="2" Margin="15" Click="sourceBtn">Browse</Button>
+                    <Label FontSize="30" FontWeight="Bold" Grid.Row="1">To:</Label>
+                    <TextBox Name="destText"  Text="{Binding Destination}" HorizontalAlignment="Center" materialDesign:HintAssist.Hint="Enter path to copy" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Column="1" Grid.Row="1" MaxWidth="220" FontSize="10"></TextBox>
+                    <Button HorizontalAlignment="Right" Grid.Column="2" Grid.Row="1" Margin="15" Click="destBtn">Browse</Button>
+                </Grid>
+                <Button Margin="15" FontSize="18" Click="copyBtn">Copy</Button>
+                <ProgressBar Height="10" IsIndeterminate="{Binding IsWaiting}" Value="{Binding Progress}"></ProgressBar>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

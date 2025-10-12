@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04_SPTasks", "04_SPTasks\04
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05_SPAsyncAwait", "05_SPAsyncAwait\05_SPAsyncAwait.csproj", "{448C0106-2BB9-4667-A2B6-4B8A9C3A4542}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06_SPOpenFileDialog", "06_SPOpenFileDialog\06_SPOpenFileDialog.csproj", "{687A1E58-93FB-4F60-8309-8E42DA626DF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{448C0106-2BB9-4667-A2B6-4B8A9C3A4542}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{448C0106-2BB9-4667-A2B6-4B8A9C3A4542}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{448C0106-2BB9-4667-A2B6-4B8A9C3A4542}.Release|Any CPU.Build.0 = Release|Any CPU
+		{687A1E58-93FB-4F60-8309-8E42DA626DF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{687A1E58-93FB-4F60-8309-8E42DA626DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{687A1E58-93FB-4F60-8309-8E42DA626DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{687A1E58-93FB-4F60-8309-8E42DA626DF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

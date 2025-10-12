@@ -1535,9 +1535,138 @@ Task<int> GenerateNumberAsync()
 
 	list.Items.Add(await Generate NumberAsync());
 
+---------------------------------------------------------------
+06_SP - Open File Dialog
+ 
+ асинхронно - послідовно без freeze
+ 
+ <TextBox IsReadOnly = "True" 		--не дає писати
+		><TextBox/>
+ 
+ 
+ <Window.Resources>		-- тег у якому можна задати стилізацію
+ 
+        <Style TargetType="{x:Type Button }">	--стилізація для кнопок
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="Padding" Value="10"></Setter>
+            <Setter Property="Background" Value="LightBlue"></Setter>            
+        </Style>
+		
+        <Style TargetType="{x:Type TextBox }">	--стилізація для полів вводу
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        </Style>
+    </Window.Resources>
+ 
+ 
+ 
+ 
+ 
+	//тільки з файлами(старий варіант)
+OpenFileDialog fileDialog = new OpenFileDialog();
+
+ if (fileDialog.ShowDialog() == true) 
+            {
+                MessageBox.Show(fileDialog.FileName);
+				
+                model.Source = sourceTb.Text = fileDialog.FileName;
+  }
+ 
+ 
+ 
+		для кращої версії(файли+папки)
+ 
+ 
+	✅	Microsoft-WindowsAPICodePack-Shell
+ 
+ using MicrosoftWindowsAPICodePack.Dialogs;
+ 
+ 
+CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+ dialog. IsFolderPicker = true;		--для роботи з папками(але не файл)
 
 
+ 
+ 
+ 
+return Task - треба для await	наприклад:
+ 
+await CopyAsync(from.Text, to. Text);
+MessageBox.Show("Копіювання завершено!");
+ 
+ 
+без return Task у CopyAsync MessageBox не вивведеться
+ 
+ 
 
+	[AddINotifyPropertyChangedInterface]	- повідомляє вікно про те що код помінявся
+class ViewModel
+    {
+        public string Source { get; set; }
+        public string Destination { get; set; }
+        public float Progress { get; set; }
+        public bool IsWaiting => Progress == 0;
+    }
+ 
+ 
+ViewModel model = new ViewModel();	-- class який прив'язує вікно з кодом(вікно бачитиме усі проперті)
+ 
+ 
+у конструкторі MainWindow:
+this.DataContext = model;	//прив'язали вікно з кодом
+ 
+ 
+Value="{Binding Progress}"	--прив'язали value з проперті
+ 
+ 
+View model 	- класс який зв'язує вікно з кодом
+ 
+
+щоб при зміні value у коді змінювалася і UI	
+	
+	
+	✅PropertyChanged.Fody
+
+using PropertyChanged;
+
+
+			//асинхронне копіювання + збільшення progressbar
+
+	private Task CopyFileAsync(string src, string dest)
+        {
+            return Task.Run(() =>
+            {
+               
+                using FileStream srcStream = new FileStream(src, FileMode.Open, FileAccess.Read);
+                using FileStream desStream = new FileStream(dest, FileMode.Create, FileAccess.Write);
+                byte[] buffer = new byte[1024 * 8];//8Kb
+                int bytes = 0;
+                do
+                {
+                    bytes = srcStream.Read(buffer, 0, buffer.Length);
+                    desStream.Write(buffer, 0, bytes);
+
+                    float percentage = desStream.Length / (srcStream.Length / 100);   
+                    model.Progress = percentage;    
+
+
+                } while (bytes > 0);
+          
+  
+            });
+            
+        }
+
+	
+	
+==	
+
+Stackpanel - дозвол створювати об'єкти всередині його і всі вони будуть на 100% ширини Stackpanel
+як сітка тільки об'єкти не розташовуються 1 під одним
+
+==	
+---------------------------------------------------------------
+07_SP - Open File Dialog
 
 
 
