@@ -1666,11 +1666,33 @@ Stackpanel - дозвол створювати об'єкти всередині 
 
 ==	
 ---------------------------------------------------------------
-07_SP - Open File Dialog
+07_SP - Copy File Manager
 
 
+<DockPanel
+LastChildFill="True">	- останній елем займе все місце що залишилось
 
 
+private ObservableCollection<CopyProcessecInfo> processes; - динамічно повдом вікно про зміни
 
 
+<ListBox.ItemTemplate>	-	як ToString() | допомог вивести інформацію 
+	<DataTemplate>
+		<ListBoxItem>
+				<DockPanel LastChildFill="True">
+				<Label DockPanel.Dock="Left">1Gb.bin</Label>
+				<Label DockPanel.Dock="Left">78%</Label>
+				<ProgressBar Value="10"></ProgressBar>
+			</DockPanel>
+		</ListBoxItem>
+	</DataTemplate>
+</ListBox.ItemTemplate>
 
+<TextBlock Grid.Column="1" Margin="5" >
+<Run Text="{Binding Percentage)"></Run>%	-	виводить проценти+%
+</TextBlock> 	
+
+TextTrimming="WordEllipsis"	- обрізає текст
+
+
+ObservableCollection - list який дивиться чи змінився код і повідомляє вікно
