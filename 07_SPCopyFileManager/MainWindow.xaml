@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid Background="LightBlue">
-        <Border MinHeight="300" MinWidth="400" Margin="15" Background="White" VerticalAlignment="Center" Padding="30" MaxWidth="500" CornerRadius="15">
+        <Border MinHeight="300" MinWidth="400" Margin="15" Background="White" VerticalAlignment="Center" Padding="15" MaxWidth="500" CornerRadius="15">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="30" Color="LightGray"></DropShadowEffect>
             </Border.Effect>
@@ -33,6 +33,30 @@
                 </Grid>
                 <Button Margin="15" FontSize="18" Click="copyBtn">Copy</Button>
                 <ProgressBar Height="10" IsIndeterminate="{Binding IsWaiting}" Value="{Binding Progress}"></ProgressBar>
+                <ListBox ItemsSource="{Binding CopyProgress}" HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ListBoxItem>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" MaxWidth="100"/>
+                                        <ColumnDefinition Width="auto" MaxWidth="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <TextBlock Grid.Column="0" Text="{Binding FileName}" TextTrimming="CharacterEllipsis" Margin="5"></TextBlock>
+                                    <TextBlock Grid.Column="1" Margin="5">
+                                        <Run Text="{Binding Percantage}"></Run>%
+                                    </TextBlock>
+                                    <ProgressBar Grid.Column="2" Value="{Binding Percantage}" Height="10"></ProgressBar>
+                                    
+                                </Grid>
+                            </ListBoxItem>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                
+                
             </StackPanel>
         </Border>
     </Grid>

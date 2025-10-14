@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -51,11 +54,20 @@ namespace _07_SPCopyFileManager
         {
             string fname = System.IO.Path.GetFileName(model.Source);
             string destFilename = System.IO.Path.Combine(model.Destination, fname);
-            await CopyFileAsync(model.Source, destFilename);
+
+            CopyProgressInfo info = new CopyProgressInfo();
+            {
+                info.FileName = fname;
+                info.Percantage = 0;
+            }
+
+            model.AddInfo(info);
+
+            await CopyFileAsync(model.Source, destFilename, info);
             MessageBox.Show("File Copied!");
-            model.Progress = 0;
+            //model.Progress = 0;
         }
-        private Task CopyFileAsync(string src, string dest)
+        private Task CopyFileAsync(string src, string dest, CopyProgressInfo info)
         {
             return Task.Run(() =>
             {
@@ -70,7 +82,9 @@ namespace _07_SPCopyFileManager
                     desStream.Write(buffer, 0, bytes);
 
                     float percentage = desStream.Length / (srcStream.Length / 100);
-                    model.Progress = percentage;
+                    //model.Progress = percentage;
+                    info.Percantage = percentage;
+
                 } while (bytes > 0);
             });
         }
@@ -79,11 +93,26 @@ namespace _07_SPCopyFileManager
     [AddINotifyPropertyChangedInterface]
     class ViewModel
     {
-        //private Obse<>
+        ObservableCollection<CopyProgressInfo> copyprogress;
         public string Source { get; set; }
         public string Destination { get; set; }
         public float Progress { get; set; }
         public bool IsWaiting => Progress == 0;
 
+        public ViewModel()
+        {
+            copyprogress = new ObservableCollection<CopyProgressInfo>();
+        }
+        public IEnumerable<CopyProgressInfo> CopyProgress => copyprogress;
+        public void AddInfo(CopyProgressInfo info)
+        {
+            copyprogress.Add(info);
+        }
+    }
+    [AddINotifyPropertyChangedInterface]
+    class CopyProgressInfo
+    {
+        public string FileName { get; set; }
+        public float Percantage { get; set; }
     }
 }

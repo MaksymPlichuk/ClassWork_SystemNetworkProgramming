@@ -1662,8 +1662,9 @@ using PropertyChanged;
 ==	
 
 Stackpanel - дозвол створювати об'єкти всередині його і всі вони будуть на 100% ширини Stackpanel
-як сітка тільки об'єкти не розташовуються 1 під одним
+як сітка тільки об'єкти не розташовуються 1 під одним а вертикально (зверху вниз)
 
+Border - тег створює білу панель посередині вікна — «картку», на якій усе розташовано.
 ==	
 ---------------------------------------------------------------
 07_SP - Copy File Manager
@@ -1672,21 +1673,117 @@ Stackpanel - дозвол створювати об'єкти всередині 
 <DockPanel
 LastChildFill="True">	- останній елем займе все місце що залишилось
 
+<ListBox>
+<ListBoxItem>	-	може мітсити тільки один об'єкт
 
-private ObservableCollection<CopyProcessecInfo> processes; - динамічно повдом вікно про зміни
+
+якщо потрібно щось динамічно додавати/показувати треба зробити в коді колекцію а потім її забіндити
+
+==
+ щоб напряму працювати з Listbox створ list, list<CopyProcessecInfo>  proceses = new List<CopyProcessecInfo>
+	де CopyProcessecInfo клас зі змінними для ListBox (filename,percentage)
+
+[AddINotifyPropertyChangedInterface]	-	повідомляє вікно про зміни	
+    class CopyProcessecInfo
+    {
+        public string Filename { get; set; }
+        public float Percentage { get; set; }
+    }
+
+
+але цей ліст приватний тому робимо  проперті IEnumerable і присвоюємо їй list
+
+	 public IEnumerable<CopyProcessecInfo> Processes => processes;	//get - readonly
+	
+	та ініціалізуємо в конструкторі
+		public ViewModel()
+	{
+		processes = [];
+	}
+	
+	
+і біндимо ListBox	<ListBox ItemsSource="{Binding Processes}" .....	
+	
+
+додаємо зміни у CopyBtn і CopyFileAsync
+
+
+	 private async  void CopyBtn(object sender, RoutedEventArgs e)
+        {
+           ....
+            string filename = Path.GetFileName(model.Source);
+           
+							//add to list item
+							
+            CopyProcessecInfo info = new CopyProcessecInfo()
+            {
+                Filename = filename,
+                Percentage = 0
+            };
+   model.AddProcess(info);	-- додає Item у Listbox
+														//додаємо
+            await CopyFileAsync(model.Source, destFilename, info);
+           }
+
+
+														//додаємо
+ private Task CopyFileAsync(string src, string dest, CopyProcessecInfo info)
+        {
+            return Task.Run(() =>
+            {
+             ...
+                 info.Percentage = percentage;   
+				...}
+		}
+
+у класі ViewModel додаємо функція яка додає Item у List
+
+	public void AddProcess(CopyProcessecInfo info)
+			{
+				processes.Add(info);	- додає елем у list<CopyProcessecInfo>
+			}
+		
+*Але ListBox не обновляється для нових об'єктів тому заміняємо 	list<CopyProcessecInfo> на ObservableCollection<CopyProcessecInfo>
+	
+		
+ObservableCollection	-	колекція яка динамічно повідомляє вікно про зміни	
+
+
+<ListBox.ItemTemplate> - прописуємо як виглядатиме 1 елемент
+
+
 
 
 <ListBox.ItemTemplate>	-	як ToString() | допомог вивести інформацію 
 	<DataTemplate>
 		<ListBoxItem>
-				<DockPanel LastChildFill="True">
-				<Label DockPanel.Dock="Left">1Gb.bin</Label>
-				<Label DockPanel.Dock="Left">78%</Label>
-				<ProgressBar Value="10"></ProgressBar>
-			</DockPanel>
+		
+		<Grid>	- для кращового виводу
+		
+             <Grid.ColumnDefinitions>
+                 <ColumnDefinition Width="Auto" MaxWidth="100"></ColumnDefinition>
+                 <ColumnDefinition Width="Auto" MaxWidth="100"></ColumnDefinition>
+                 <ColumnDefinition Width="*"></ColumnDefinition>
+             </Grid.ColumnDefinitions>
+												//назва прив'яз до фалу
+             <TextBlock Grid.Column="0" Text="{Binding Filename}"
+                        Margin="5" TextTrimming="WordEllipsis"></TextBlock>		-- TextTrimming="WordEllipsis" обрізає текст
+						
+             <TextBlock Grid.Column="1"  Margin="5" > 		-- як  Console.WriteLine("asd" + "b")
+                <Run Text="{Binding Percentage}"></Run>	% 		виведе сам процент і допише %
+             </TextBlock>
+         
+             
+             <ProgressBar Grid.Column="2" Value="{Binding Percentage}"></ProgressBar>
+         </Grid>
+		 
 		</ListBoxItem>
 	</DataTemplate>
 </ListBox.ItemTemplate>
+
+
+=
+
 
 <TextBlock Grid.Column="1" Margin="5" >
 <Run Text="{Binding Percentage)"></Run>%	-	виводить проценти+%
@@ -1696,3 +1793,7 @@ TextTrimming="WordEllipsis"	- обрізає текст
 
 
 ObservableCollection - list який дивиться чи змінився код і повідомляє вікно
+
+
+
+
