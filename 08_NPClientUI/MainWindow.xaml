@@ -1,0 +1,35 @@
+﻿<Window x:Class="_08_NPClientUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_08_NPClientUI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Background="LightBlue">
+        <Border Background="White" Margin="15"  Height="auto" VerticalAlignment="Center" Padding="50">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="IP:" ></Label>
+                    <TextBox Grid.Column="1" ></TextBox>
+                    <Label Content="Port" Grid.Column="2"></Label>
+                    <TextBox Grid.Column="3" ></TextBox>
+                    <TextBox Grid.Row="1" Grid.ColumnSpan="3"></TextBox>
+                    <Button Grid.Row="1" Grid.Column="4">Send</Button>
+                    <Label Content="Port" Grid.Column="2"></Label>
+                </Grid>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

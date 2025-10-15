@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06_SPOpenFileDialog", "06_S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07_SPCopyFileManager", "07_SPCopyFileManager\07_SPCopyFileManager.csproj", "{EF366415-63B2-438E-B5C5-37002F006EEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08_NPClientUI", "08_NPClientUI\08_NPClientUI.csproj", "{EEA2B029-CA97-4E4B-AFA5-D0E50431EE84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08_NPServer", "08_NPServer\08_NPServer.csproj", "{E1E297A6-3A82-442B-9BBB-F1B2830252F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{EF366415-63B2-438E-B5C5-37002F006EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF366415-63B2-438E-B5C5-37002F006EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF366415-63B2-438E-B5C5-37002F006EEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEA2B029-CA97-4E4B-AFA5-D0E50431EE84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEA2B029-CA97-4E4B-AFA5-D0E50431EE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEA2B029-CA97-4E4B-AFA5-D0E50431EE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEA2B029-CA97-4E4B-AFA5-D0E50431EE84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1E297A6-3A82-442B-9BBB-F1B2830252F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1E297A6-3A82-442B-9BBB-F1B2830252F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1E297A6-3A82-442B-9BBB-F1B2830252F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1E297A6-3A82-442B-9BBB-F1B2830252F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
