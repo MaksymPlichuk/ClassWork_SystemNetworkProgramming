@@ -13,8 +13,9 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="200"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -22,13 +23,31 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Content="IP:" ></Label>
-                    <TextBox Grid.Column="1" ></TextBox>
-                    <Label Content="Port" Grid.Column="2"></Label>
-                    <TextBox Grid.Column="3" ></TextBox>
-                    <TextBox Grid.Row="1" Grid.ColumnSpan="3"></TextBox>
-                    <Button Grid.Row="1" Grid.Column="4">Send</Button>
-                    <Label Content="Port" Grid.Column="2"></Label>
+                    <TextBox Grid.Column="1" Name="ipField" Text="{Binding Ip}"></TextBox>
+                    <Label Content="Port:" Grid.Column="3"></Label>
+                    <TextBox Grid.Column="4" Name="portField"  Text="{Binding Port}"></TextBox>
+
+                    <TextBox Grid.Row="1" Grid.ColumnSpan="3" Name="messageField" Text="{Binding Message}"></TextBox>
+                    <Button Grid.Row="1" Grid.Column="4" Background="LightGreen" Click="SendData">Send</Button>
+                    <Label Grid.Row="2" Grid.ColumnSpan="5" Content="Dialog" HorizontalAlignment="Center" FontSize="20"></Label>
                 </Grid>
+                <ListBox Background="LightBlue" ItemsSource="{Binding Messages}" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ListBoxItem>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="250"/>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Text}" TextTrimming="CharacterEllipsis" Margin="5"></TextBlock>
+                                    <TextBlock Grid.Column="2" Text="{Binding Time}" TextTrimming="CharacterEllipsis" Margin="5"></TextBlock>
+                                </Grid>
+                            </ListBoxItem>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
         </Border>
     </Grid>

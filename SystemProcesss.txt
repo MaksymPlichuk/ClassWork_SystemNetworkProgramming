@@ -1823,7 +1823,7 @@ ParallelLoopResult result = Parallel.ForEach(authors, AverageRating);
  }
 
 
-CancellationToken - 
+CancellationToken - зупиняє Task
 
 							//розділяє на потоки LINQ
 var factorials from n in numbers.AsParallel()
@@ -1866,7 +1866,7 @@ foreach (var n in factorials)
 |__/     |__/       \______/  \____  $$|__/      \_______/|__/ |__/ |__/|__/ |__/ |__/|__/|__/  |__/ \____  $$
                               /$$  \ $$                                                              /$$  \ $$
                              |  $$$$$$/                                                             |  $$$$$$/
-                              \______/                                                               \______/                                                              \______/                                                                                                      							
+                              \______/                                                               \______/                                                                                                    							
 =====================================================								
 =====================================================								
 =====================================================								
@@ -1876,11 +1876,116 @@ foreach (var n in factorials)
 ---------------------------------------------------------------
 01_NP - Parallel
 
+Application - програма
+
+Presentation - Https/шифрування
+
+Session -  пошук IP
+
+Transport - визначає через який протокл передається данні TCP/UDP
+
+ протоколи для передачі пакетів
+
+TCP - перевіряє доставку
 UDP - не перевіряє доставку пакета
 
-протоеол для передачі пакетів
-
-port - 
 
 
+UdpClient client = new UdpClient();	-- протокол для передачі пакету по мережі
 
+	message = Console.ReadLine()!;
+		byte[] data = Encoding.Unicode.GetBytes(message);
+
+
+				розмір байтів  куди передати
+client.Send(data, data.Length, ipPoint);	-- відправляє пакет
+
+ 
+ static string address = "127.0.0.1"; // адрес сервера	--локальна адреса будь-якого додатку
+   static int port = 8080;      // порт сервера 1000....60 000
+
+
+port - вказівка який додаток має відкрити повідомлення
+
+ IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(address), port);
+   IPEndPoint remoteIpPoint = new IPEndPoint(IPAddress.Any, 0);	-- щоб сервер знав за ким слідкувати
+		
+  client:
+ class Program
+    {
+// адрес и порт сервера, к которому будем подключаться
+
+        static string address = "127.0.0.1"
+        static int port = 8080;            
+        static void Main(string[] args){
+		
+            try{
+                IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(address), port);
+                IPEndPoint remoteIpPoint = new IPEndPoint(IPAddress.Any, 0);
+
+                UdpClient client = new UdpClient();
+                string message = "";
+                while (message != "end")
+                {
+
+                    Console.Write("Enter a message: ");
+                    message = Console.ReadLine()!;
+                    byte[] data = Encoding.Unicode.GetBytes(message);
+                  
+
+
+                    client.Send(data, data.Length, ipPoint);
+						//при використанні UDP протоколу, Connect() лише встановлює дані для відправки
+
+								//запам'ятовує хто відповів
+                    data = client.Receive(ref remoteIpPoint);
+                    string response = Encoding.Unicode.GetString(data);
+
+                    Console.WriteLine("server response: " + response + " remote : " + remoteIpPoint);
+                }
+                client.Close();
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+
+  server:
+ class Program
+    {
+        static string address = "127.0.0.1"; // поточний адрес
+        static int port = 8080;              // порт для приема входящих запросов
+
+        static void Main(string[] args)
+        {
+           
+            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(address), port);
+            IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
+            UdpClient listener = new UdpClient(ipPoint);
+            try
+            {
+             Console.WriteLine("Server started! Waiting for connection...");
+                while (true)
+                {
+                   
+                    byte[] data = listener.Receive(ref remoteEndPoint);	--прослуховє на msg
+                    string msg = Encoding.Unicode.GetString(data);
+					
+                    Console.WriteLine($"{DateTime.Now.ToShortTimeString()}: {msg} from {remoteEndPoint}");
+
+						// отправляем ответ
+                    string message = "Message was send!";
+                    data = Encoding.Unicode.GetBytes(message);
+
+                    listener.Send(data, data.Length, remoteEndPoint);
+                }
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            listener.Close();
+        }
+    }
