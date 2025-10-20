@@ -1989,3 +1989,31 @@ port - вказівка який додаток має відкрити пові
             listener.Close();
         }
     }
+	
+---------------------------------------------------------------
+02_NP - Sockets. TCP & UDP
+
+
+
+---------------------------------------------------------------
+03_NP - TCP Protocol
+
+create app.xaml
+
+<appSettings>
+	<add key="Server Address" value="127.0.0.1"/>
+	<add key="ServerPort" value="4040"/>
+</appSettings>
+
+ InitializeComponent();
+string address ConfigurationManager. AppSettings["ServerAddress"]!;
+int port = int.Parse( ConfigurationManager. AppSettings["ServerPort"]!);
+serverEndPoint = new IPEndPoint (IPAddress. Parse(address), port);
+client = new TcpClient();
+
+TCP - підключились відпавили відключились (1 на 1)
+
+Flush() - виштовхе з буфера
+
+
+

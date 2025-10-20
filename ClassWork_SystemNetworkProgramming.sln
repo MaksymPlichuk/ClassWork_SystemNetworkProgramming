@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08_NPClientUI", "08_NPClien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08_NPServer", "08_NPServer\08_NPServer.csproj", "{E1E297A6-3A82-442B-9BBB-F1B2830252F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "10_NPCarRegionClientUI", "10_NPCarRegionClientUI\10_NPCarRegionClientUI.csproj", "{FA78C081-5DE0-4CF7-A805-6D49FE163601}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "10_NPCarRegionServer", "10_NPCarRegionServer\10_NPCarRegionServer.csproj", "{A255D4C6-54B3-4DCD-9019-D29017E82F22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{E1E297A6-3A82-442B-9BBB-F1B2830252F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1E297A6-3A82-442B-9BBB-F1B2830252F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1E297A6-3A82-442B-9BBB-F1B2830252F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA78C081-5DE0-4CF7-A805-6D49FE163601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA78C081-5DE0-4CF7-A805-6D49FE163601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA78C081-5DE0-4CF7-A805-6D49FE163601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA78C081-5DE0-4CF7-A805-6D49FE163601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A255D4C6-54B3-4DCD-9019-D29017E82F22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A255D4C6-54B3-4DCD-9019-D29017E82F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A255D4C6-54B3-4DCD-9019-D29017E82F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A255D4C6-54B3-4DCD-9019-D29017E82F22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
