@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "10_NPCarRegionClientUI", "1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "10_NPCarRegionServer", "10_NPCarRegionServer\10_NPCarRegionServer.csproj", "{A255D4C6-54B3-4DCD-9019-D29017E82F22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "11_NPMailSenderLogin", "11_NPMailSenderLogin\11_NPMailSenderLogin.csproj", "{6C73523A-8C34-4BB0-93CF-08ED587C12F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{A255D4C6-54B3-4DCD-9019-D29017E82F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A255D4C6-54B3-4DCD-9019-D29017E82F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A255D4C6-54B3-4DCD-9019-D29017E82F22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C73523A-8C34-4BB0-93CF-08ED587C12F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C73523A-8C34-4BB0-93CF-08ED587C12F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C73523A-8C34-4BB0-93CF-08ED587C12F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C73523A-8C34-4BB0-93CF-08ED587C12F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
