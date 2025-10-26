@@ -1930,7 +1930,7 @@ port - вказівка який додаток має відкрити пові
 
                     Console.Write("Enter a message: ");
                     message = Console.ReadLine()!;
-                    byte[] data = Encoding.Unicode.GetBytes(message);
+                    byte[] data = Encoding.Unicode.GetBytes(message);	//UDP відправляє тільки у байтах тому конвертуємо
                   
 
 
@@ -1972,7 +1972,7 @@ port - вказівка який додаток має відкрити пові
              Console.WriteLine("Server started! Waiting for connection...");
                 while (true)
                 {
-                   
+										//запам'ятовує хто відправив
                     byte[] data = listener.Receive(ref remoteEndPoint);	--прослуховє на msg
                     string msg = Encoding.Unicode.GetString(data);
 					
@@ -1993,6 +1993,50 @@ port - вказівка який додаток має відкрити пові
 ---------------------------------------------------------------
 02_NP - Sockets. TCP & UDP
 
+Socket - основний клас який лежить у UDP TCP
+
+using System.Net.Sockets; - треба для  UdpClient client;
+
+IPEndPoint serverEndPoint; - змінна для того щоб доступитися до сервера і робити йому відправку інформації
+
+
+для
+client.SendAsync(data, data.Length, serverEndPoint);	-	обов'язково треба масив байтів
+
+ byte[] data = Encoding.UTF8.GetBytes(msg);
+
+	//сервер
+ip - поставить таке саме
+port - обов'язково треба вказувати
+
+
+ в момент отримання message при Receive сервер запам'ятовує IP відправника
+
+тому:
+	IPEndPoint clientEndPoint = null;	- стор змінну яка потім буде мінятись
+	byte[] data = udpClient.Receive(ref clientEndPoint);	- запише хто написав у clientEndPoint
+
+
+Щоб при відправці msg у 1 клієнта був той самий порт переносимо створення udpClient і IPEndPoint в конструктор:
+
+	 serverEndPoint = new IPEndPoint(IPAddress.Parse(address),port);
+     client = new UdpClient();
+
+
+повідомлення яке буде відправляись на сервер від клієнта при join: string msg = "$<join>";
+
+
+  private async Task Listen()
+        {
+            while (true)
+            {
+
+                var res = await client.ReceiveAsync();
+                string message = Encoding.UTF8.GetString(res.Buffer);	//res.Buffer достає message з Task
+                messages.Add(new MessageInfo(message, DateTime.Now));
+              
+            }
+        }
 
 
 ---------------------------------------------------------------
