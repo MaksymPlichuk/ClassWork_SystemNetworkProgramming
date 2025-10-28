@@ -10,24 +10,45 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
             <Label FontSize="10" Content="IP: "></Label>
-            <TextBox MinWidth="200"></TextBox>
+            <TextBox Name="ipField" MinWidth="200" VerticalContentAlignment="Center"></TextBox>
             <Label FontSize="10" Content="Port: " Margin="20 0 0 0"></Label>
-            <TextBox MinWidth="200"></TextBox>
-            <Button Margin="20 0 0 0" Width="100" Height="25" Background="LightGreen">JOIN</Button>
-            <Button Margin="20 0 0 0" Width="100" Height="25" Background="LightGreen">DISCONECT</Button>
+            <TextBox Name="portField" MinWidth="200" VerticalContentAlignment="Center"></TextBox>
+            <Button Margin="20 0 0 0" Width="100" Height="25" Background="LightGreen" Click="ConnectButton_Click">JOIN</Button>
+            <Button Margin="20 0 0 0" Width="100" Height="25" Background="LightGreen" Click="DisconnectButton_Click">DISCONECT</Button>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="5">
+            <TextBox MinWidth="500" VerticalAlignment="Center" Name="sendTxt" VerticalContentAlignment="Center"></TextBox>
+            <Button Margin="20 0 0 0" Width="150" MaxWidth="150" Height="25" Background="LightGreen" Click="SendButton_Click">SEND</Button>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
-            <TextBox MinWidth="500" VerticalAlignment="Center"></TextBox>
-            <Button Margin="20 0 0 0" Width="150" Height="25" Background="LightGreen">SEND</Button>
+            <Label FontSize="15" Content="Username: "></Label>
+            <TextBox MinWidth="250" VerticalAlignment="Center" Name="userTxt" VerticalContentAlignment="Center"></TextBox>
+            <Button Margin="20 0 0 0" Width="150" Height="25" Background="LightGreen" Click="UsernameButton_Click">CONFIRM</Button>
         </StackPanel>
-        <ListBox Grid.Row="2" Background="LightBlue">
+        <ListBox Grid.Row="3" ItemsSource="{Binding}">
+            <ListBox.Background>
+                <ImageBrush ImageSource="/Images/ukr.png" Stretch="UniformToFill" Opacity="0.2"/>
+            </ListBox.Background>
             
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <ListBoxItem>
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding Username}" TextTrimming="CharacterEllipsis" Margin="5"></TextBlock>
+                            <TextBlock Text="{Binding Message}" TextTrimming="CharacterEllipsis" Margin="5"></TextBlock>
+                            <TextBlock DockPanel.Dock="Right" Text="{Binding Time}" TextTrimming="CharacterEllipsis" Margin="5"></TextBlock>
+                        </DockPanel>
+                    </ListBoxItem>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
     </Grid>
 </Window>

@@ -2038,26 +2038,101 @@ port - обов'язково треба вказувати
             }
         }
 
+	Основні методи:
+
+client = new UdpClient();
+
+client.SendAsync(data, data.Length, serverEndPoint);
+
+var res = await client.ReceiveAsync();
+	string msg = Encoding.UTF8.GetString(res.Buffer);
+
+
+byte[] data = server.Receive(ref clientEndPoint);	//запам'ятовує IP відправника
+	string msg = Encoding.UTF8.GetString(data);
+
 
 ---------------------------------------------------------------
 03_NP - TCP Protocol
 
-create app.xaml
+create app.config
 
 <appSettings>
-	<add key="Server Address" value="127.0.0.1"/>
+	<add key="ServerAddress" value="127.0.0.1"/>
 	<add key="ServerPort" value="4040"/>
 </appSettings>
 
- InitializeComponent();
-string address ConfigurationManager. AppSettings["ServerAddress"]!;
-int port = int.Parse( ConfigurationManager. AppSettings["ServerPort"]!);
-serverEndPoint = new IPEndPoint (IPAddress. Parse(address), port);
-client = new TcpClient();
 
-TCP - підключились відпавили відключились (1 на 1)
+ public MainWindow()
+ {
+    InitializeComponent();
+ 	
+ 	string address =  ConfigurationManager.AppSettings["ServerAddress"]!;
+ 	int port = int.Parse( ConfigurationManager.AppSettings["ServerPort"]!);
+	
+ 	serverEndPoint = new IPEndPoint (IPAddress. Parse(address), port);
+ 	client = new TcpClient();
+ }
+ 
 
-Flush() - виштовхе з буфера
+UDP	- відправ дані які конвертуються у масив байтів
+TCP - встановлюється connection і TCP має створити потік 
+ 
+ тобто:
+
+	client.Connect(serverEndPoint);
+    NetworkStream ns = client.GetStream();
+
+ і потім від ns: ns.WriteAsync() ns.ReadAsync()
+	
+	ns.Close()	-- закриває потік
+	client.Close()	-- закриває connection
+ 
+ 
+ 
+TCP - підключились відпавили відключились (1 на 1)	-- Тому MultiChat буде тяжко зробити
+
+
+streamReader = new StreamReader(ns);
+
+	var res = await streamReader.ReadLineAsync();	-- зразу приходить string не треба декодувати
+	messages.Add(new MessageInfo(res, DateTime.Now));
+
+
+ TcpListener server_listener;
+ 
+public Server()
+       {
+
+           server_listener = new TcpListener(new IPEndPoint(IPAddress.Parse(ip), port));
+       }
+
+
+	public void Start()
+        {
+            server_listener.Start();	-- стартує прослушку замість: while (true) {
+																		byte[] data = server.Receive(ref clientEndPoint); .....}
+			
+            Console.WriteLine("Waiting for connection...........");
+			
+            TcpClient client =  server_listener.AcceptTcpClient();	-- поверне екземпляр того хто надіслав запит (ловить клієнта)
+            Console.WriteLine("Connection was success.");
+
+            NetworkStream ns = client.GetStream();		-- по цій трубі відправить відповідь клієнту
+            StreamReader sr = new StreamReader(ns); 	-- потік з якого зчитуємо данні
+			
+            StreamWriter sw = new StreamWriter(ns); 
+            while (true)
+            {
+                string message = sr.ReadLine()!;	-- прочитає рядок який відправив client
+                Console.WriteLine($"Message : {message}. From : {client.Client.LocalEndPoint}");  
+                
+                sw.WriteLine("Message was send");
+                sw.Flush();
+            }
+        }
+
+ns.Flush() - виштовхе з буфера данні шоб міг бути Connection у клієнта | підключення затряне в буффері
 
 
 ---------------------------------------------------------------
