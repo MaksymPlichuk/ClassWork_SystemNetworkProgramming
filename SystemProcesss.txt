@@ -2135,6 +2135,47 @@ public Server()
 ns.Flush() - виштовхе з буфера данні шоб міг бути Connection у клієнта | підключення затряне в буффері
 
 
+	Основні методи:
+	
+ Connect:
+	
+TcpClient client.Connect(serverEndPoint);
+NetworkStream ns = client.GetStream();
+
+streamReader = new StreamReader(ns);
+streamWriter = new StreamWriter(ns);	
+	
+	private async void Listen()
+	{
+		while (true)
+		{
+			var res = await streamReader.ReadLineAsync();
+	
+			messages.Add(new MessageInfo(res, DateTime.Now, minfo.Username));
+		}
+	}	
+	
+ Send:
+
+streamWriter.WriteLine(msg);
+streamWriter.Flush(); 
+	
+	Server:
+	
+	TcpListener server_listener;
+	
+ server_listener.Start();	-- чекає підключення
+	
+TcpClient client = server_listener.AcceptTcpClient();	
+	
+  NetworkStream ns = client.GetStream();
+  StreamReader sr = new StreamReader(ns);
+  StreamWriter sw = new StreamWriter(ns);
+
+sw.WriteLine( reply );
+sw.Flush();
+
+
 ---------------------------------------------------------------
 04_NP - SMTP Protocol
 
@@ -2151,7 +2192,7 @@ ns.Flush() - виштовхе з буфера данні шоб міг бути 
  Використовується у 								Використовується у застосунках
  критичних застосунках	 							реального часу
 				
- Механізм упорядкування пакетів						Немає механізму упорядкування
+ Механізм упорядкування пакетів	(ділить пакети)		Немає механізму упорядкування
  Керування потоком									Немає керування потоком
  
  Розширена перевірка помилок						Базова перевірка помилок (контрольна сума)
@@ -2166,12 +2207,78 @@ ns.Flush() - виштовхе з буфера данні шоб міг бути 
 using System.Net;
 using System.Net.Mail;
 
-SMTP - для передачі пошти щоб прочитати треба IMAP
-
-message.IsBodyHtml = true; - 
+SMTP - для передачі поштою листа | щоб прочитати треба IMAP
 
 
+  --create a message object				from			to			subject		message
+MailMessage message = new MailMessage(fromBox.Text, toBox.Text, themeBox.Text, bodyBox.Text);
 
+
+
+//send HTML body
+	using (StreamReader sr = new StreamReader("mail.html"))		--зчитує данні з файлу mail.html
+	{
+		message.Body = sr.ReadToEnd();
+	}
+message.IsBodyHtml = true;		--замінили message на гарний html файл
+									зформує message як частину HTML сторінки
+
+
+
+
+						//харкоднуті у проект в папці Files
+message.Attachments.Add(new Attachment(@"Files/text.txt"));	
+
+	
+	string server= "smtp.gmail.com"; // sets the server address
+	int port = 587;
+
+
+
+	//create a send object
+SmtpClient client = new SmtpClient(server, port);	--відправлння на сервер гугла
+	client.EnableSsl = true;	--додаткове шифрування
+
+
+	--settings for sending mail			//логін на пошту
+ client.Credentials = new NetworkCredential(username, password);
+
+
+
+client.SendCompleted  += Client_SendCompleted;
+	
+client.SendAsync(message, message );
+							//параметр для перевірки у AsyncCompletedEventArgs
+
+
+	private void Client_SendCompleted(object sender, AsyncCompletedEventArgs e)
+		{
+		
+			var state = (MailMessage)e.UserState;
+		
+			MessageBox.Show($"Message was sent! Subject: {state.Subject}!");
+			//MessageBox.Show($"Message was sent! Subject: {e.UserState.ToString()}!");
+		}
+	
+
+
+https://stackoverflow.com/questions/72547853/unable-to-send-email-in-c-sharp-less-secure-app-access-not-longer-available
+
+		Основні методи:
+
+ MailMessage msg = new MailMessage(rightEmailTxt.Text, toTxt.Text, themeTxt.Text, msgTxt.Text);
+
+SmtpClient client = new SmtpClient(server, port);
+
+client.EnableSsl = true;
+										--пошта    пароль для бота
+client.Credentials = new NetworkCredential(Login, Password);
+
+
+ client.SendAsync(msg, msg);
+
+---------------------------------------------------------------
+05_NP - SMTP Protocol
 
 
 

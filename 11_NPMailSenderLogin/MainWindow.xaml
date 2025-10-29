@@ -7,24 +7,58 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <!--<Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30">Login</Label>
-        <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30">Email:</Label>
-        <Label Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30">Password:</Label>
 
+        <StackPanel Background="AntiqueWhite" Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" MinWidth="150" ></TextBox>
-        <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" MinWidth="150" ></TextBox>
-        <Button Grid.Column="1" Grid.Row="3" Margin="5" FontSize="20" Click="Button_Click">Login</Button>-->
+                <Label Content="To whom: " Margin="5"></Label>
+                <TextBox Name="toTxt" Grid.Column="1" Margin="5" MaxWidth="500" VerticalContentAlignment="Center"></TextBox>
+
+                <Label Content="Theme: " Margin="5" Grid.Row="1"></Label>
+                <TextBox Name="themeTxt" Grid.Column="1"  Grid.Row="1" Margin="5" MaxWidth="500"  VerticalContentAlignment="Center"></TextBox>
+
+                <Label Content="From whom: " Margin="5" Grid.Row="2"></Label>
+                <TextBox Name="rightEmailTxt" IsReadOnly="True" Grid.Column="1"  Grid.Row="2" Margin="5" MaxWidth="500"  VerticalContentAlignment="Center"></TextBox>
+
+                <Button Name="attachBtn" Margin="5" Grid.Column="1" Grid.Row="3" MaxWidth="150" Click="attachBtn_Click">Attach File</Button>
+                <CheckBox Name="priorityBtn" Margin="5" Grid.Column="0" Grid.Row="3" MaxWidth="150" Click="priorityBtn_Click">High Priority</CheckBox>
+
+                <Label Content="List of Attached files: " Margin="5" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center"></Label>
+                <ListBox Grid.Row="1" Grid.Column="2" Grid.RowSpan="3" Margin="5" ItemsSource="{Binding FileToMail}">
+                </ListBox>
+            </Grid>
+        </StackPanel>
+
+        <Grid Background="HotPink" Grid.Row="1">
+            <TextBox Name="msgTxt" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">Text Here</TextBox>
+        </Grid>
+        
+        <Grid Background="CadetBlue" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Name="newtextBtn" Width="auto" MaxHeight="50" Grid.Column="0" Margin="5" Click="newtextBtn_Click">New Letter</Button>
+            <Button Name="sendBtn" Width="auto" MaxHeight="50" Grid.Column="2" Margin="5" Click="sendBtn_Click">Send</Button>
+            <Button Name="exit" MaxHeight="25" MaxWidth="75" Grid.Column="1" Margin="5" Click="exit_Click">exit</Button>
+        </Grid>
+
     </Grid>
 </Window>

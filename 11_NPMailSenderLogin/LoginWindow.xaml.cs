@@ -22,6 +22,10 @@ namespace _11_NPMailSenderLogin
         public string Login { get; set; }
         public string Password { get; set; }
 
+        private string rightLogin = "lenailyshun@gmail.com";
+        private string rightPassword = "dqmq yyqu uxfb ikfc";
+
+
         public LoginWindow()
         {
             InitializeComponent();
@@ -31,13 +35,21 @@ namespace _11_NPMailSenderLogin
             InitializeComponent();
             this.Login = login;
             this.Password = password;
+
+            logintb.Text = rightLogin;
+            passtb.Text = rightPassword;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Login = logintb.Text;
             Password = passtb.Text;
-            this.Hide();
+            if (Login == rightLogin && Password == rightPassword)
+            {
+                this.Hide();
+            }
+            else { MessageBox.Show("Wrong Credentials!"); }
+            
         }
     }
 }
