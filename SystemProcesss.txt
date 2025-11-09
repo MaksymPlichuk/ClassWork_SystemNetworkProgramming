@@ -2281,8 +2281,139 @@ client.Credentials = new NetworkCredential(Login, Password);
 05_NP - SMTP Protocol
 
 
+щоб використовувати класи з IMAP і доставати повідомлення з mail client 
+		треба поставити		✅MailKit
+
+
+ using MailKit
+ using MailKit.Net.IMAP		-- отримування
+ using MailKit.Net.SMTP		-- відправка
+
+
+щоб робити об'єкт повідомлення
+		треба поставити		✅MimeKit
 
 
 
+MailKit відправка (SMTP):
+
+	           using (var client = new SmtpClient())	-- using для того щоб закривався потік
+            {
+                client.Connect("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect);
+
+                client.Authenticate(username, password);
 
 
+							//var options = FormatOptions.Default.Clone();
+			
+							//if (client.Capabilities.HasFlag(SmtpCapabilities.UTF8))
+							//    options.International = true;
+			
+                client.Send(message);	-- створюється нижче
+				
+				
+                client.Disconnect(true);
+            }
+
+
+  var message = new MimeMessage();
+		message.From.Add(new MailboxAddress("Щдутф", "<email_from>"));  // change here
+		message.To.Add(new MailboxAddress("Test User", "<email_to>"));  // change here
+		message.Subject = "Добрий вечір, ми з України! How you doin?";
+		message.Importance = MessageImportance.High;
+  
+  message.Body = new TextPart("plain")
+  {
+			@	-- треба щоб повідомлення збереглось з табуляціями і переходами
+	Text = @"Hey Alice,
+				
+				What are you up to this weekend? Monica is throwing one of her parties on
+				Saturday and I was hoping you could make it.
+				
+				Will you be my +1?
+				
+				-- Joey 
+				"
+  };
+
+
+MailKit отримування (IMAP):
+
+	using (var client = new ImapClient())
+		{
+				//client.Alert += Client_Alert;
+			client.Connect("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);		
+			client.Authenticate(username, password);
+		
+		
+															//усі папки на пошті
+			foreach (var item in client.GetFolders(client.PersonalNamespaces[0]))
+				{
+					Console.WriteLine("Folder: " + item.Name);	--виводить усі папки на пошті
+				}
+
+
+
+			var folder = client.GetFolder(SpecialFolder.Sent);	--вибираємо конкретну папку
+
+
+				#обов'зяково відкриваємо папку яку будемо читати
+			 client.Inbox.Open(FolderAccess.ReadOnly);	
+				
+
+	var uids = client.Inbox.Search(SearchQuery.All);	--для отримання масиву повідомленнь
+
+	
+		foreach (var uid in uids)	--біжить по кожному повідомленню
+		{
+			var m = client.Inbox.GetMessage(uid);
+		
+				//show message subject
+			Console.WriteLine(m.Subject);
+		}
+				
+				
+						
+			var id = folder.Search(SearchQuery.All)[0];		--останнє повідомлення 
+				
+				
+			client.GetFolder(SpecialFolder.Sent).Open(FolderAccess.ReadWrite);	--обов'язково відкриваємо папку
+				
+				
+				
+						//id повідомлення яке треба видалити
+			folder.AddFlags(id, MessageFlags.Deleted, true);	--помічає по id повідомлення на видалення
+			
+			
+			 client.Inbox.Expunge();	--	видаляє повідомлення щол помічені на видалення
+			 
+		}
+		
+-----------HTTP
+
+
+через HTTP інформація передається на сайт
+	під капотом той самий TCP
+
+
+інформація яка пересилається завжди переконвертовується у масив байтів
+
+			
+		var url = "https://jsonplaceholder.typicode.com/users"
+
+		
+	using var client = new HttpClient();		 			 
+		
+
+		//отримує json по ссилці
+	var response = await client.GetAsync(url)		 
+			 
+			 
+		Console.WriteLine($"Status: {response. StatusCode}");
+		
+	var result = await response. Content.ReadAsStringAsync();	--виводить json по ссилці
+	
+	Console.WriteLine(result);	 
+			 
+HTTP -- треба для роботи з веб сторінками	
+	

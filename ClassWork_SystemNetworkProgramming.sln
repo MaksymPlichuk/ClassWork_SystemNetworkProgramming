@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "09_NPServer", "09_NPServer\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "09_NPMessengerClientUI", "09_NPMessengerClientUI\09_NPMessengerClientUI.csproj", "{8ED484C2-6D0E-4334-B85F-D7E78FABD359}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "12_NPMailKit", "12_NPMailKit\12_NPMailKit.csproj", "{9A247B81-7F8D-4F4D-9BCF-086996CA1357}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{8ED484C2-6D0E-4334-B85F-D7E78FABD359}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ED484C2-6D0E-4334-B85F-D7E78FABD359}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ED484C2-6D0E-4334-B85F-D7E78FABD359}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A247B81-7F8D-4F4D-9BCF-086996CA1357}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A247B81-7F8D-4F4D-9BCF-086996CA1357}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A247B81-7F8D-4F4D-9BCF-086996CA1357}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A247B81-7F8D-4F4D-9BCF-086996CA1357}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
