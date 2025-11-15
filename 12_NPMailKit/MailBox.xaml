@@ -1,0 +1,38 @@
+﻿<Window x:Class="_12_NPMailKit.MailBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_12_NPMailKit"
+        mc:Ignorable="d"
+        Title="MailBox" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,5,0,5" >
+            <Button Margin="5" Padding="50,0,50,0" Click="OpenBtn_Click">Open</Button>
+            <Button Margin="5" Padding="50,0,50,0" Click="DeleteBtn_Click">Delete</Button>
+            <Button Margin="5" Padding="50,0,50,0" Click="ReplyBtn_Click">Relpy</Button>
+            <Button Margin="5" Padding="50,0,50,0" Click="ConnectBtn_Click">Connect</Button>
+            <Button Margin="5" Padding="50,0,50,0" Click="QuitBtn_Click">Quit</Button>
+        </StackPanel>
+        <GroupBox Grid.Row="1" Grid.RowSpan="3">
+            <ListBox Name="FoldersBox" Background="Aquamarine" ItemsSource="{Binding Folders}" SelectionChanged="FoldexBox_SelectionChanged" ></ListBox>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Grid.RowSpan="3" Grid.Column="2">
+            <ListBox Name="MailsBox" Background="BlanchedAlmond" ItemsSource="{Binding Mails}"></ListBox>
+        </GroupBox>
+
+
+    </Grid>
+</Window>

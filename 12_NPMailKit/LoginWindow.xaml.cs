@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using _12_NPMailKit.Entities;
+using Microsoft.VisualBasic.ApplicationServices;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using _12_NPMailKit.Library;
 
 
 
@@ -22,50 +11,28 @@ namespace _12_NPMailKit
     /// </summary>
     public partial class LoginWindow : Window
     {
-        public string Login { get; set; }
-        public string Password { get; set; }
-
         private string rightLogin = "lenailyshun@gmail.com";
         private string rightPassword = "dqmq yyqu uxfb ikfc";
         public LoginWindow()
         {
             InitializeComponent();
-            logintb.Text = rightLogin;
-            passtb.Text = rightPassword;
+            LoginTxt.Text = rightLogin;
+            passTxt.Text = rightPassword;
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void signInBtn_Click(object sender, RoutedEventArgs e)
         {
-            Login = logintb.Text.Trim();
-            Password = passtb.Text;
-
-            if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password)) {
-                MessageBox.Show("Enter right credentials");
-                return;
-            }
-
-            var imap = new ImapService();
-            try
+            if (LoginTxt.Text == rightLogin && passTxt.Text == rightPassword)
             {
-                this.IsEnabled = false;
+                var user = new SenderUser(rightLogin, rightPassword);
 
-                await imap.ConnectAsync(Login, Password);
+                MailBox mailBox = new MailBox();
+                mailBox.LoggedUser = user;
 
-                SessionState.Email = Login;
-                SessionState.Password = Password;
-
-                var main = new MainWindow(imap);
-                main.Show();
                 this.Close();
+                mailBox.Show();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Login failed");
-            }
-            finally
-            {
-                this.IsEnabled = true;
-            }
+            else { MessageBox.Show("Wrong Credentials!", "Error", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+           
         }
     }
-
 }
